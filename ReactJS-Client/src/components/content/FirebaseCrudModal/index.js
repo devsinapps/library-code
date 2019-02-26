@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 //Actions
 import { addData, updateData, deleteData } from './../../../store/actions/firebaseCrudActions'
 //Tools
@@ -7,11 +7,14 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 //Container
 import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+//Reactstrap
+import { Button } from 'reactstrap'
 //Component
 import { FirebaseTable } from './FirebaseTable'
-import FirebaseForm from './FirebaseForm'
-class FirebaseCrud extends Component{
+import { FirebaseModal } from './FirebaseModal'
+class FirebaseCrudModal extends React.Component{
 	state = {
+		modal: false,
 		userId: '',
 		firstName: '',
 		lastName: '',
@@ -20,8 +23,15 @@ class FirebaseCrud extends Component{
 		address: ''
 	}
 
-	getDataRow = (user) => {
+	toggleModal = () => {
 		this.setState({
+			modal: !this.state.modal
+		})
+	}
+
+	toggleTable = (user) => {
+		this.setState({
+			modal: !this.state.modal,
 			userId: user.id,
 			firstName: user.firstName,
 			lastName: user.lastName,
@@ -34,6 +44,18 @@ class FirebaseCrud extends Component{
 	onChange = (e) => {
 		this.setState({
 			[e.target.id]: e.target.value
+		})
+	}
+
+	resetForm = () => {
+		this.setState({
+			modal: !this.state.modal,
+			userId: '',
+			firstName: '',
+			lastName: '',
+			age: '',
+			email: '',
+			address: ''
 		})
 	}
 
@@ -53,6 +75,7 @@ class FirebaseCrud extends Component{
 		else{
 			this.props.addData(newData)
 			this.setState({
+				modal: !this.state.modal,
 				firstName: '',
 				lastName: '',
 				age: '',
@@ -76,6 +99,7 @@ class FirebaseCrud extends Component{
 		if(check === true){
 			this.props.updateData(data)
 			this.setState({
+				modal: !this.state.modal,
 				userId: '',
 				firstName: '',
 				lastName: '',
@@ -95,6 +119,7 @@ class FirebaseCrud extends Component{
 		if(check === true){
 			this.props.deleteData(userId)
 			this.setState({
+				modal: !this.state.modal,
 				userId: '',
 				firstName: '',
 				lastName: '',
@@ -107,45 +132,36 @@ class FirebaseCrud extends Component{
 			return null
 		}
 	}
-
-	resetForm = () => {
-		this.setState({
-			userId: '',
-			firstName: '',
-			lastName: '',
-			age: '',
-			email: '',
-			address: ''
-		})
-	}
 	render(){
+		const { modal } = this.state
 		const { users } = this.props
 		const { userId,firstName, lastName, age, email, address } = this.state
 		const value = { userId,firstName, lastName, age, email, address }
 		return(
-			<div id='ArrObjCrud'>
+			<div id='FirebaseCrudModal'>
 				<ContainerRow>
-					<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' brCard='mb-3' tlCard='Firebase Crud'>
+					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' brCard='mb-3' tlCard='Table'>
 						<FirebaseTable 
 							users={users}
-							getDataRow={this.getDataRow}
+							toggleTable={this.toggleTable}
 						/>
+						<Button onClick={this.toggleModal}> + </Button>
 					</ColCard>
-					<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' brCard='mb-3' tlCard='Firebase Crud'>
-						<FirebaseForm 
-							value={value}
-							onChange={this.onChange}
-							addData={this.addData}
-							updateData={this.updateData}
-							deleteData={this.deleteData}
-							resetForm={this.resetForm}
-						/>
-					</ColCard>
+					<FirebaseModal 
+						value={value}
+						modal={modal}
+						onChange={this.onChange}
+						resetForm={this.resetForm}
+						addData={this.addData}
+						updateData={this.updateData}
+						deleteData={this.deleteData}
+					/>
 				</ContainerRow>
 			</div>
 		)
 	}
 }
+
 
 const mapStateToProps = (state) => {
 	return{
@@ -166,4 +182,4 @@ export default compose(
 	firestoreConnect([{
 		collection: 'users'
 	}])
-	)(FirebaseCrud)
+	)(FirebaseCrudModal)

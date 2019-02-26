@@ -64,17 +64,21 @@ export class ArrObjCrud extends Component{
 			phone, 
 			website
 		}
-
-		users.unshift(newData)
-		this.setState({
-			users: users,
-			userId: '',
-			name: '',
-			username: '',
-			email: '',
-			phone: '',
-			website: ''
-		})
+		if(name === '' || username === '' || email === '' || phone === '' || website === ''){
+			return alert('Data Masih Ada Yang Kosong')	
+		}
+		else{
+			users.unshift(newData)
+			this.setState({
+				users: users,
+				userId: '',
+				name: '',
+				username: '',
+				email: '',
+				phone: '',
+				website: ''
+			})
+		} 
 	}
 
 	updateData = () => {
