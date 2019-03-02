@@ -1,26 +1,6 @@
 import React from 'react'
 
 import { Container, Row, Col, Card, CardHeader, CardBody } from 'reactstrap'
-export class ContainerFull extends React.Component{
-	render(){
-		const { lgCol, mdCol, smCol, xsCol, brCard, tlCard, children } = this.props
-		return(
-			<Container fluid>
-				<Row>
-					<Col lg={lgCol} md={mdCol} sm={smCol} xs={xsCol}>
-						<Card className={brCard}>
-							<CardHeader> {tlCard} </CardHeader>
-							<CardBody>
-								{children}
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
-			</Container>
-		)
-	}
-}
-
 export class ContainerRow extends React.Component{
 	render(){
 		const { children } = this.props
@@ -36,9 +16,9 @@ export class ContainerRow extends React.Component{
 
 export class ColCard extends React.Component{
 	render(){
-		const { lgCol, mdCol, smCol, xsCol, brCard, tlCard, children } = this.props
+		const { lgCol, mdCol, smCol, xsCol, colClass, brCard, tlCard, children } = this.props
 		return(
-			<Col lg={lgCol} md={mdCol} sm={smCol} xs={xsCol}>
+			<Col lg={lgCol} md={mdCol} sm={smCol} xs={xsCol} className={colClass}>
 				<Card className={brCard}>
 					<CardHeader> {tlCard} </CardHeader>
 					<CardBody>
