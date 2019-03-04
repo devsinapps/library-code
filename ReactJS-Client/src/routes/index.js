@@ -6,11 +6,17 @@ import { ArrObjCrud } from './../components/content/ArrObjCrud'
 import { ArrObjCrudModal } from './../components/content/ArrObjCrudModal'
 import { ArrObjCrudDetail }	from './../components/content/ArrObjCrudDetail'
 	import { DataDetail } from './../components/content/ArrObjCrudDetail/DataDetail'
+
+//Firebase	
 import FirebaseCrud from './../components/content/FirebaseCrud'
 import FirebaseCrudModal from './../components/content/FirebaseCrudModal'
 import FirebaseCrudDetailPage from './../components/content/FirebaseCrudDetailPage'
 	import FirebaseDetail from './../components/content/FirebaseCrudDetailPage/FirebaseDetail'
 
+//PostgreSQL
+import { PostgreSQLCrud } from './../components/content/PostgreSQLCrud'
+
+//Fetch API
 import { FetchAPI_Unsplash } from './../components/content/FetchAPI_Unsplash'
 
 import { FetchAPI_Food2Fork } from './../components/content/FetchAPI_Food2Fork_DetailPage'
@@ -35,6 +41,8 @@ export class Routes extends React.Component{
 						<Route path='/firebasecrudmodal' component={FirebaseCrudModal} />
 						<Route path='/firebasecruddetailpage' component={FirebaseCrudDetailPage} />
 							<Route path='/f_detail/:user_id' component={FirebaseDetail} />
+						<Route path='/postgrecrud' component={PostgreSQLCrud} />
+
 						<Route path='/fetchapiunsplash' component={FetchAPI_Unsplash} />
 						<Route path='/fetchapifood2fork' component={FetchAPI_Food2Fork} />	
 							<Route path='/r_detail/:recipe_id' component={F2FDetail} />
