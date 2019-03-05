@@ -1,0 +1,126 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+JP");
+@import url("https://fonts.googleapis.com/css?family=Merriweather+Sans|Noto+Sans+JP");
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+html body {
+  position: relative; }
+  html body #root #Routes .TopNav {
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    height: 60px;
+    font-family: 'Merriweather Sans', sans-serif;
+    background-color: #f1f2f6;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5); }
+    html body #root #Routes .TopNav .navbar-brand {
+      margin: auto; }
+  html body #root #Routes .SideNav {
+    position: fixed;
+    top: 60px;
+    width: 200px;
+    height: 100vh;
+    background-color: #f1f2f6;
+    font-family: 'Noto Sans JP', sans-serif; }
+    html body #root #Routes .SideNav .menu {
+      height: 400px;
+      overflow: auto; }
+      html body #root #Routes .SideNav .menu ul .titleMenu {
+        padding: 10px;
+        font-size: 15px;
+        transition: all .2s;
+        height: 40px; }
+        html body #root #Routes .SideNav .menu ul .titleMenu:hover {
+          background-color: #e0e2eb; }
+        html body #root #Routes .SideNav .menu ul .titleMenu a {
+          font-weight: bold;
+          color: #57606f; }
+          html body #root #Routes .SideNav .menu ul .titleMenu a:hover {
+            text-decoration: none; }
+          html body #root #Routes .SideNav .menu ul .titleMenu a i {
+            cursor: pointer; }
+      html body #root #Routes .SideNav .menu ul .Dropdown .titleDropdown {
+        position: relative;
+        padding: 10px;
+        font-size: 15px;
+        height: 40px;
+        color: #57606f;
+        font-weight: bold;
+        transition: all .2s; }
+        html body #root #Routes .SideNav .menu ul .Dropdown .titleDropdown:hover {
+          background-color: #e0e2eb; }
+        html body #root #Routes .SideNav .menu ul .Dropdown .titleDropdown.active {
+          background-color: #e0e2eb;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+        html body #root #Routes .SideNav .menu ul .Dropdown .titleDropdown i {
+          cursor: pointer; }
+        html body #root #Routes .SideNav .menu ul .Dropdown .titleDropdown .iconDropdown {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          transition: all .2s; }
+          html body #root #Routes .SideNav .menu ul .Dropdown .titleDropdown .iconDropdown.active {
+            transform: rotate(90deg); }
+      html body #root #Routes .SideNav .menu ul .Dropdown .DropdownMenu .Menu ul li {
+        padding: 10px;
+        font-size: 15px;
+        transition: all .2s;
+        height: 40px;
+        background-color: #e0e2eb; }
+        html body #root #Routes .SideNav .menu ul .Dropdown .DropdownMenu .Menu ul li:hover {
+          background-color: #e0e2eb; }
+        html body #root #Routes .SideNav .menu ul .Dropdown .DropdownMenu .Menu ul li a {
+          color: #57606f; }
+          html body #root #Routes .SideNav .menu ul .Dropdown .DropdownMenu .Menu ul li a:hover {
+            text-decoration: none; }
+  html body #root #Routes .Content {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    left: 200px;
+    font-family: 'Noto Sans JP', sans-serif; }

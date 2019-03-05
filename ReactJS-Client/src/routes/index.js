@@ -1,5 +1,8 @@
 import React from 'react'
 
+//Layout
+import { TopNav } from './../components/layout/TopNav'
+import { SideNav } from './../components/layout/SideNav'
 //Component
 import { Main } from './../components/content/Main'
 import { ArrObjCrud } from './../components/content/ArrObjCrud'
@@ -16,6 +19,9 @@ import FirebaseCrudDetailPage from './../components/content/FirebaseCrudDetailPa
 //PostgreSQL
 import { PostgreSQLCrud } from './../components/content/PostgreSQLCrud'
 
+//GraphQL
+import { GraphQLCrud } from './../components/content/GraphQLCrud'
+
 //Fetch API
 import { FetchAPI_Unsplash } from './../components/content/FetchAPI_Unsplash'
 
@@ -26,29 +32,42 @@ import { FMAuth } from './../components/content/FormMultistep_Auth'
 import { Multipage } from './../components/content/Multipage'
  
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
+
+
+//Fontawesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faAngleRight)
+
 export class Routes extends React.Component{
 	render(){
 		return(
 			<Router>
 				<div id='Routes'>
-					<Switch>
-						<Route path='/' component={Main} exact />
-						<Route path='/arrobjcrud' component={ArrObjCrud} />
-						<Route path='/arrobjcrudmodal' component={ArrObjCrudModal} />
-						<Route path='/arrobjcruddetail' component={ArrObjCrudDetail} />
-							<Route path='/arr_detail/:user_id' component={DataDetail} />
-						<Route path='/firebasecrud' component={FirebaseCrud} />
-						<Route path='/firebasecrudmodal' component={FirebaseCrudModal} />
-						<Route path='/firebasecruddetailpage' component={FirebaseCrudDetailPage} />
-							<Route path='/f_detail/:user_id' component={FirebaseDetail} />
-						<Route path='/postgrecrud' component={PostgreSQLCrud} />
-
-						<Route path='/fetchapiunsplash' component={FetchAPI_Unsplash} />
-						<Route path='/fetchapifood2fork' component={FetchAPI_Food2Fork} />	
-							<Route path='/r_detail/:recipe_id' component={F2FDetail} />
-						<Route path='/fmauth' component={FMAuth} />	
-						<Route path='/multipage' component={Multipage} />	
-					</Switch>
+					<TopNav />
+					<SideNav />
+					<div className='Content'>
+						<Switch>
+							<Route path='/' component={Main} exact />
+							<Route path='/arrobjcrud' component={ArrObjCrud} />
+							<Route path='/arrobjcrudmodal' component={ArrObjCrudModal} />
+							<Route path='/arrobjcruddetail' component={ArrObjCrudDetail} />
+								<Route path='/arr_detail/:user_id' component={DataDetail} />
+							<Route path='/firebasecrud' component={FirebaseCrud} />
+							<Route path='/firebasecrudmodal' component={FirebaseCrudModal} />
+							<Route path='/firebasecruddetailpage' component={FirebaseCrudDetailPage} />
+								<Route path='/f_detail/:user_id' component={FirebaseDetail} />
+							<Route path='/postgrecrud' component={PostgreSQLCrud} />
+							<Route path='/graphcrud' component={GraphQLCrud} />
+							<Route path='/fetchapiunsplash' component={FetchAPI_Unsplash} />
+							<Route path='/fetchapifood2fork' component={FetchAPI_Food2Fork} />	
+								<Route path='/r_detail/:recipe_id' component={F2FDetail} />
+							<Route path='/fmauth' component={FMAuth} />	
+							<Route path='/multipage' component={Multipage} />	
+						</Switch>
+					</div>
 				</div>
 			</Router>
 		)

@@ -1,0 +1,117 @@
+@import './css/cssReset';
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP');
+@import url('https://fonts.googleapis.com/css?family=Merriweather+Sans|Noto+Sans+JP');
+html{
+	body{
+		position: relative;
+		#root{
+			#Routes{
+				.TopNav{
+					position: fixed;
+					right: 0;
+					left: 0;
+					z-index: 1;
+					height: 60px;
+					font-family: 'Merriweather Sans', sans-serif;
+					background-color: #f1f2f6;
+					box-shadow: 0px 0px 1px rgba(0,0,0,.5);
+					.navbar-brand{
+						margin: auto;
+					}
+				}
+				.SideNav{
+					position: fixed;
+					top: 60px;
+					width: 200px;
+					height: 100vh;
+					background-color: #f1f2f6;
+					font-family: 'Noto Sans JP', sans-serif;
+					.menu{
+						height: 400px;
+						overflow: auto;
+						ul{
+							.titleMenu{
+								padding: 10px;
+								font-size: 15px;
+								transition: all .2s;
+								height: 40px;
+								&:hover{
+									background-color: #e0e2eb;
+								}
+								a{
+									font-weight: bold;
+									color: #57606f;
+									&:hover{
+										text-decoration: none;
+									}
+									i{
+										cursor: pointer;
+									}
+								}	
+							}
+							.Dropdown{
+								.titleDropdown{
+									position: relative;
+									padding: 10px;
+									font-size: 15px;
+									height: 40px;
+									color: #57606f;
+									font-weight: bold;
+									transition: all .2s;
+									&:hover{
+										background-color: #e0e2eb;
+									}
+									&.active{
+										background-color: #e0e2eb;
+										border-bottom: 1px solid rgba(0,0,0,.2);
+									}
+									i{
+										cursor: pointer;
+									}
+									.iconDropdown{
+										position: absolute;
+										top: 10px;
+										right: 10px;
+										transition: all .2s;
+										&.active{
+											transform: rotate(90deg);
+										}
+									}
+								}
+								.DropdownMenu{
+									.Menu{
+										ul{
+											li{
+												padding: 10px;
+												font-size: 15px;
+												transition: all .2s;
+												height: 40px;
+												background-color: #e0e2eb;
+												&:hover{
+													background-color: #e0e2eb;
+												}
+												a{
+													color: #57606f;
+													&:hover{
+														text-decoration: none;
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				.Content{
+					position: absolute;
+					top: 70px;
+					right: 0;
+					left: 200px;
+					font-family: 'Noto Sans JP', sans-serif;
+				}
+			}
+		}
+	}
+}
