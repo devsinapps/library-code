@@ -92,6 +92,11 @@ export class SideNav extends React.Component{
 									Form Multistep Auth
 									</Link>
 								</li>
+								<li>
+									<Link to='/fmauth_firebase' >
+									Form Multistep Auth Firebase
+									</Link>
+								</li>
 							</ul>
 						</Dropdown>
 					</ul>
