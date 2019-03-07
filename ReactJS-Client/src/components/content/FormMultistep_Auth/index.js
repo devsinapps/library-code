@@ -33,7 +33,7 @@ export class FMAuth extends React.Component{
 		})
 	}
 
-	//Handle Button on Info Component
+	//Handle Component Contact
 	nextStepInfo = (e) => {
 		e.preventDefault();
 		const { step, email } = this.state
@@ -62,7 +62,7 @@ export class FMAuth extends React.Component{
 		}
 	}
 
-	//Handle Button Sign Up
+	//Handle Component Password
 	onSubmit = (e) => {
 		e.preventDefault();
 		const { step, password, checkpass } = this.state

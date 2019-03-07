@@ -1,14 +1,16 @@
 import React from 'react'
 //Tools
 import { connect } from 'react-redux'
-//Container
+//Container 
 import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+//Reactstrap
+import { Button } from 'reactstrap'
 //Component
 import { PostgreTable } from './PostgreTable'
-import { PostgreForm } from './PostgreForm'
-class PostgreSQLCrud extends React.Component{
+import { PostgreModal } from './PostgreModal'
+class PostgreSQLCrudModal extends React.Component{
 	state = {
-		employess: [],
+		employees: [],
 		employeeId: '',
 		firstname: '',
 		lastname: '',
@@ -19,12 +21,13 @@ class PostgreSQLCrud extends React.Component{
 		city: '',
 		address: '',
 		education: '',
-		joindate: ''
+		joindate: '',
+		modal: false
 	}
+
 	componentDidMount(){
-		//Make Query to Connect with server PostgreSQL
 		fetch('http://localhost:3001/api/employees')
-		.then((response) =>{
+		.then((response)=>{
 			response.json()
 			.then((data)=>{
 				this.setState({
@@ -33,6 +36,7 @@ class PostgreSQLCrud extends React.Component{
 			})
 		})
 	}
+
 	getDataRow = (employee) => {
 		this.setState({
 			employeeId: employee.id,
@@ -45,7 +49,8 @@ class PostgreSQLCrud extends React.Component{
 			city: employee.city,
 			address: employee.address,
 			education: employee.education,
-			joindate: employee.joindate
+			joindate: employee.joindate,
+			modal: !this.state.modal
 		})
 	}
 
@@ -55,8 +60,13 @@ class PostgreSQLCrud extends React.Component{
 		})
 	}
 
-	//Handle Add Data
-	addData = () => {
+	toggleAdd = (e) => {
+		this.setState({
+			modal: !this.state.modal
+		})
+	}
+
+	addData = (e) => {
 		const { employees } = this.state
 		const { firstname, lastname, age, gender, email, country, city, address, education, joindate } = this.state
 		const data = {
@@ -67,25 +77,22 @@ class PostgreSQLCrud extends React.Component{
 			email, 
 			country, 
 			city, 
-			address, 
+			address,
 			education, 
 			joindate
 		}
 
-		if(firstname.length == 0 || lastname.length == 0 || age.length == 0 || gender.length == 0 || email.length == 0 || country.length == 0 || city.length == 0 || address.length == 0 || education.length == 0 || joindate.length == 0){
-			alert('firstname kosong');
+		if(firstname.length === 0 || lastname.length === 0 || age.length === 0 || gender.length === 0 || email.length === 0 || country.length === 0 || city.length === 0 || address.length === 0 || education.length === 0 || joindate.length === 0){
+			alert('Data Null')
 		}else{
-			
-			const request = new Request('http://localhost:3001/api/new-employee', {
-				method: 'POST',
+			const request = new Request('http://localhost:3001/api/new-employee',{
+				method: "POST",
 				headers: new Headers({ 'Content-Type': 'application/json'}),
 				body: JSON.stringify(data)
 			})
-
-			employees.push(data);
+			employees.push(data)
 			this.setState({
-				employess: employees,
-				employeeId: '',
+				employees: employees,
 				firstname: '',
 				lastname: '',
 				age: '',
@@ -95,25 +102,81 @@ class PostgreSQLCrud extends React.Component{
 				city: '',
 				address: '',
 				education: '',
-				joindate: ''
+				joindate: '',
+				modal: !this.state.modal
 			})
-
 			fetch(request)
 			.then((response)=>{
 				response.json()
 				.then((data)=>{
 					console.log(data)
 				})
-			})
-			.catch((err)=>{
+			}).catch((err)=>{
 				console.log(err)
+			})
+		} 
+	}
+
+	deleteData = (e) => {
+		const { employees, employeeId } = this.state
+		const check = window.confirm('Delete?')
+		if(check === true){
+			const request = new Request('http://localhost:3001/api/delete-employee/'+employeeId,{
+				method: 'DELETE'
+			})
+
+			const employee = employees.find(function(employee){
+				return employee.id === employeeId
+			})
+
+			//Using For Loop
+			/*for(let i = 0; i < employees.length; i++){
+				if(employees[i].id && employees[i].id === employeeId){
+					employees.splice(i, 1)
+					this.setState({
+						employees: employees,
+						firstname: '',
+						lastname: '',
+						age: '',
+						gender: '',
+						email: '',
+						country: '',
+						city: '',
+						address: '',
+						education: '',
+						joindate: '',
+						modal: !this.state.modal
+					})
+				}
+			}*/
+
+			fetch(request)
+			.then((response)=>{
+				employees.splice(employees.indexOf(employee), 1)
+				this.setState({
+					employees: employees,
+					firstname: '',
+					lastname: '',
+					age: '',
+					gender: '',
+					email: '',
+					country: '',
+					city: '',
+					address: '',
+					education: '',
+					joindate: '',
+					modal: !this.state.modal
+				})
+				response.json()
+				.then((data)=>{
+					console.log(data)
+				})
 			})
 		}
 	}
-	//Handle Update
-	updateData = () => {
+
+	updateData = (e) => {
 		const { employees } = this.state
-		const check = window.confirm('Update?');
 		const { employeeId, firstname, lastname, age, gender, email, country, city, address, education, joindate } = this.state
 		const data = {
 			firstname, 
@@ -129,11 +192,12 @@ class PostgreSQLCrud extends React.Component{
 		}
 
 		const request = new Request('http://localhost:3001/api/update-employee/'+employeeId,{
-			method: 'PUT',
+			method: "PUT",
 			headers: new Headers({ 'Content-Type': 'application/json'}),
 			body: JSON.stringify(data)
 		})
 
+		const check = window.confirm('Update?')
 		if(check === true){
 			fetch(request)
 			.then((response)=>{
@@ -142,10 +206,7 @@ class PostgreSQLCrud extends React.Component{
 					console.log(data)
 				})
 			})
-			.catch((err)=>{
-				console.log(err)
-			})
-			//Update view if update user success
+
 			for(let i = 0; i < employees.length; i++){
 				if(employees[i].id && employees[i].id === employeeId){
 					employees[i].id = employeeId
@@ -161,7 +222,6 @@ class PostgreSQLCrud extends React.Component{
 					employees[i].joindate = joindate
 					this.setState({
 						employees: employees,
-						employeeId: '',
 						firstname: '',
 						lastname: '',
 						age: '',
@@ -171,77 +231,15 @@ class PostgreSQLCrud extends React.Component{
 						city: '',
 						address: '',
 						education: '',
-						joindate: ''
+						joindate: '',
+						modal: !this.state.modal
 					})
 				}
 			}
-		}else{
-			return null
 		}
 	}
-	//Handle Delete Data
-	deleteData = () => {
-		const { employeeId, employees } = this.state
-		const check = window.confirm('Delete Data?');
-		const request = new Request('http://localhost:3001/api/delete-employee/'+employeeId, {
-			method: "DELETE"
-		})
-		if(check === true){
-			const employee = employees.find(function(employee){
-				return employee.id === employeeId
-			})
-			fetch(request)
-			.then((response)=>{
-				employees.splice(employees.indexOf(employee), 1);
-				this.setState({
-					employeeId: '',
-					firstname: '',
-					lastname: '',
-					age: '',
-					gender: '',
-					email: '',
-					country: '',
-					city: '',
-					address: '',
-					education: '',
-					joindate: ''
-				})
-				response.json()
-				.then((data)=>{
-					console.log(data);
-				})
-			})
 
-			//Using For Looping
-				/*for(let i = 0; i < employees.length; i++){
-					if(employees[i].id && employees[i].id === employeeId){
-						fetch(request)
-						.then((response)=>{
-							employees.splice(employees[i], 1);
-							this.setState({
-								employeeId: '',
-								firstname: '',
-								lastname: '',
-								age: '',
-								gender: '',
-								email: '',
-								country: '',
-								city: '',
-								address: '',
-								education: '',
-								joindate: ''
-							})
-							response.json()
-							.then((data)=>{
-								console.log(data);
-							})
-						})
-					}
-				}*/
-		}
-	}
-	//Handle Reset
-	resetForm = () => {
+	resetForm = (e) => {
 		this.setState({
 			employeeId: '',
 			firstname: '',
@@ -253,37 +251,36 @@ class PostgreSQLCrud extends React.Component{
 			city: '',
 			address: '',
 			education: '',
-			joindate: ''
+			joindate: '',
+			modal: !this.state.modal
 		})
 	}
 	render(){
-		const { employees } = this.state
+		const { employees, modal } = this.state
 		const { employeeId, firstname, lastname, age, gender, email, country, city, address, education, joindate } = this.state
 		const { countries } = this.props
 		const value = { employeeId, firstname, lastname, age, gender, email, country, city, address, education, joindate }
 		return(
-			<div id='PostgreSQLCrud'>
+			<div id='PostgreSQLCrudModal'>
 				<ContainerRow>
 					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' colClass='mx-auto' brCard='mb-3' tlCard='Table'>
 						<PostgreTable 
 							employees={employees}
 							getDataRow={this.getDataRow}
 						/>
+						<Button color='primary' onClick={this.toggleAdd}> + </Button>
 					</ColCard>
 				</ContainerRow>
-				<ContainerRow>
-					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' colClass='mx-auto' brCard='mb-3' tlCard='Table'>
-						<PostgreForm 
-							value={value}
-							countries={countries}
-							onChange={this.onChange}
-							addData={this.addData}
-							updateData={this.updateData}
-							deleteData={this.deleteData}
-							resetForm={this.resetForm}
-						/>
-					</ColCard>
-				</ContainerRow>
+				<PostgreModal 
+					modal={modal}
+					value={value}
+					countries={countries}
+					onChange={this.onChange}
+					addData={this.addData}
+					deleteData={this.deleteData}
+					updateData={this.updateData}
+					resetForm={this.resetForm}
+				/>
 			</div>
 		)
 	}
@@ -295,4 +292,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(PostgreSQLCrud)
+export default connect(mapStateToProps)(PostgreSQLCrudModal)

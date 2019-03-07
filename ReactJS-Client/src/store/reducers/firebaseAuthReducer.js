@@ -29,6 +29,20 @@ const firebaseAuthReducer = ( state = initState, action ) => {
 				...state,
 				authError:"SIGN_UP_ERROR" 
 			}
+
+		case "SIGNOUT_SUCCESS":
+			console.log('SIGNOUT_SUCCESS')
+			return{
+				...state,
+				authError:"" 
+			}
+
+		case "SIGNOUT_ERROR":
+			console.log('SIGNOUT_ERROR')
+			return{
+				...state,
+				authError:"SIGNOUT_ERROR" 
+			}
 		default:
 			return state;
 	}

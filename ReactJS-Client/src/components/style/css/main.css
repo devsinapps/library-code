@@ -124,3 +124,11 @@ html body {
     right: 0;
     left: 200px;
     font-family: 'Noto Sans JP', sans-serif; }
+
+@media screen and (max-width: 500px) {
+  html body {
+    position: relative; }
+    html body #root #Routes .SideNav {
+      width: 0px; }
+    html body #root #Routes .Content {
+      left: 0; } }

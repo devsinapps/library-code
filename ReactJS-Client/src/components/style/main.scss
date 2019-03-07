@@ -103,6 +103,9 @@ html{
 							}
 						}
 					}
+					.toggle{
+
+					}
 				}
 				.Content{
 					position: absolute;
@@ -110,6 +113,70 @@ html{
 					right: 0;
 					left: 200px;
 					font-family: 'Noto Sans JP', sans-serif;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 500px){
+	html{
+		body{
+			position: relative;
+			#root{
+				#Routes{
+					.TopNav{
+						.navbar-brand{
+						}
+					}
+					.SideNav{
+						width: 0px;
+						.menu{
+							ul{
+								.titleMenu{
+									&:hover{
+									}
+									a{
+										&:hover{
+										}
+										i{
+										}
+									}	
+								}
+								.Dropdown{
+									.titleDropdown{
+										&:hover{
+										}
+										&.active{
+										}
+										i{
+										}
+										.iconDropdown{
+											&.active{
+											}
+										}
+									}
+									.DropdownMenu{
+										.Menu{
+											ul{
+												li{
+													&:hover{
+													}
+													a{
+														&:hover{
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					.Content{
+						left: 0;
+					}
 				}
 			}
 		}

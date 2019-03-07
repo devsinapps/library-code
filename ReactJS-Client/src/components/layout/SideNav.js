@@ -41,7 +41,7 @@ export class SideNav extends React.Component{
 									</Link>
 								</li>
 								<li>
-									<Link to='#' >
+									<Link to='/postgrecrudmodal' >
 									Crud Single Page Modal
 									</Link>
 								</li>
@@ -62,6 +62,16 @@ export class SideNav extends React.Component{
 								<li>
 									<Link to='/firebasecruddetailpage' >
 									Crud Single Page Detail
+									</Link>
+								</li>
+								<li>
+									<Link to='/firebaseauth' >
+									Firebase Auth
+									</Link>
+								</li>
+								<li>
+									<Link to='/firebaseauthmediasocial' >
+									Firebase Auth Medsos
 									</Link>
 								</li>
 							</ul>
@@ -90,11 +100,6 @@ export class SideNav extends React.Component{
 								<li>
 									<Link to='/fmauth' >
 									Form Multistep Auth
-									</Link>
-								</li>
-								<li>
-									<Link to='/fmauth_firebase' >
-									Form Multistep Auth Firebase
 									</Link>
 								</li>
 							</ul>
