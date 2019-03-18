@@ -7,7 +7,7 @@ class FirebaseForm extends Component{
 		const { value } = this.props
 		const enabled = value.userId.length > 0
 		return(
-			<Form onSubmit={this.props.addData}>
+			<Form>
 				<Row form>
 					<Col lg='4'>
 						<FormGroup>
@@ -61,10 +61,10 @@ class FirebaseForm extends Component{
 					</Col>
 				</Row>
 				<FormGroup className='text-center'>
-					<Button disabled={enabled}> Save </Button> {' '}
-					<Button onClick={this.props.updateData} disabled={!enabled}> Update </Button> {' '}
-					<Button onClick={this.props.deleteData} disabled={!enabled}> Delete </Button> {' '}
-					<Button onClick={this.props.resetForm}> Reset </Button>
+					<Button onClick={()=>this.props.crudMode('SAVE')} disabled={enabled}> Save </Button> {' '}
+					<Button onClick={()=>this.props.crudMode('UPDATE')} disabled={!enabled}> Update </Button> {' '}
+					<Button onClick={()=>this.props.crudMode('DELETE')} disabled={!enabled}> Delete </Button> {' '}
+					<Button onClick={()=>this.props.crudMode('RESET')}> Reset </Button>
 				</FormGroup>
 			</Form>
 		)

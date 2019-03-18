@@ -7,7 +7,7 @@ export class UserPass extends React.Component{
 		const enabled = value.password.length > 0 &&
 						value.checkpass.length > 0 ;
 		return(
-			<Form onSubmit={this.props.onSubmit}>
+			<Form>
 				<FormGroup>
 					<Label htmlFor='password'> Password </Label>
 					<Input
@@ -25,7 +25,7 @@ export class UserPass extends React.Component{
 					/>
 				</FormGroup>
 				<FormGroup className='text-center'>
-					<Button block color='primary' disabled={!enabled}> Sign Up </Button>
+					<Button block color='primary' disabled={!enabled} onClick={()=>this.props.stepAuth('SignUp')}> Sign Up </Button>
 				</FormGroup>
 			</Form>
 		)

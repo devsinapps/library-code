@@ -26,26 +26,6 @@ class SignUp extends React.Component{
 		})
 	}
 
-	nextStep = (e) => {
-		const { step } = this.state
-		this.setState({
-			step: step + 1
-		})
-	}
-
-	//Handle Component User Contact
-	stepAtContact = (e) => {
-		const { step, email } = this.state
-		const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		if(!regex.test(email)){
-			alert('email invalid')
-		}else{
-			this.setState({
-				step: step + 1
-			})
-		}
-	}
-
 	onChangeOnContact = (e) => {
 		const { phone } = this.state
 		const rest = e.target.value;
@@ -60,28 +40,42 @@ class SignUp extends React.Component{
 		}
 	}
 
-	//Handle Component User Password
-	onSubmit = (e) => {
-		e.preventDefault();
-		const { firstName, lastName, gender, age, email, phone, password, keypass } = this.state
-		const newUser = {
-			firstName, 
-			lastName, 
-			gender, 
-			age, 
-			email, 
-			phone, 
-			password
-		}
-		if(password !== keypass){
-			alert('Password Failed');
-		}else{
-			this.props.signUp(newUser)
+	stepAuth = (mode) => {
+		const { step, firstName, lastName, gender, age, email, phone, password, keypass } = this.state
+		if(mode === 'UserInfo'){
+			this.setState({
+				step: step + 1
+			})
+		}else if(mode === 'UserContact'){
+			const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if(!regex.test(email)){
+				alert('Email Invalid')
+			}else{
+				this.setState({
+					step: step + 1
+				})
+			}
+		}else if(mode === 'SignUp'){
+			const parseAge = parseInt(age);
+			const newUser = {
+				firstName, 
+				lastName, 
+				gender, 
+				age: parseAge, 
+				email, 
+				phone, 
+				password
+			}
+			if(password !== keypass){
+				alert('Password Not Confirmed')
+			}else{
+				this.props.signUp(newUser)
+			}
 		}
 	}
+
 	render(){
-		const { step } = this.state
-		const { firstName, lastName, gender, age, email, phone, password, keypass } = this.state
+		const { step, firstName, lastName, gender, age, email, phone, password, keypass } = this.state
 		const value = { firstName, lastName, gender, age, email, phone, password, keypass }
 		switch(step){
 			case 1:
@@ -89,7 +83,7 @@ class SignUp extends React.Component{
 					<UserInfo 
 						value={value}
 						onChange={this.onChange}
-						nextStep={this.nextStep}
+						stepAuth={this.stepAuth}
 					/>
 				)
 			case 2:
@@ -98,7 +92,7 @@ class SignUp extends React.Component{
 						value={value}
 						onChange={this.onChange}
 						onChangeOnContact={this.onChangeOnContact}
-						stepAtContact={this.stepAtContact}
+						stepAuth={this.stepAuth}
 					/>
 				)
 			case 3:
@@ -106,18 +100,12 @@ class SignUp extends React.Component{
 					<UserPass 
 						value={value}
 						onChange={this.onChange}
-						onSubmit={this.onSubmit}
+						stepAuth={this.stepAuth}
 					/>
 				)
 			default:
 				return null
 		}
-	}
-}
-
-const mapStateToProps = (state) => {
-	return{
-
 	}
 }
 
@@ -127,4 +115,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+export default connect(null, mapDispatchToProps)(SignUp)

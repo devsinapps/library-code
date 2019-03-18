@@ -37,87 +37,92 @@ class FirebaseCrud extends Component{
 		})
 	}
 
-	addData = (e) => {
-		e.preventDefault();
-		const { firstName, lastName, age, email, address } = this.state
-		const newData = {
-			firstName, 
-			lastName, 
-			age, 
-			email, 
-			address
-		}
-		if(firstName === '' || lastName === '' || age === '' || email === '' || address === ''){
-			return alert('Data Masih Ada yg Kosong')
-		}
-		else{
-			this.props.addData(newData)
-			this.setState({
-				firstName: '',
-				lastName: '',
-				age: '',
-				email: '',
-				address: ''
-			})
-		}
-	}
-
-	updateData = () => {
+	crudMode = (mode) => {
 		const { userId, firstName, lastName, age, email, address } = this.state
-		const data = {
-			userId, 
-			firstName, 
-			lastName, 
-			age, 
-			email, 
-			address
-		}
-		const check = window.confirm('Update?')
-		if(check === true){
-			this.props.updateData(data)
-			this.setState({
-				userId: '',
-				firstName: '',
-				lastName: '',
-				age: '',
-				email: '',
-				address: ''
-			})
-		}
-		else{
-			return null
+		switch(mode){
+			case 'SAVE':
+				const newData = {
+					firstName, 
+					lastName, 
+					age, 
+					email, 
+					address
+				}
+				if(firstName === '' || lastName === '' || age === '' || email === '' || address === ''){
+					return alert('Data Masih Ada yg Kosong')
+				}
+				else{
+					this.props.addData(newData)
+					this.setState({
+						firstName: '',
+						lastName: '',
+						age: '',
+						email: '',
+						address: ''
+					})
+				}
+				break;
+
+			case 'UPDATE':
+				const data = {
+					userId, 
+					firstName, 
+					lastName, 
+					age, 
+					email, 
+					address
+				}
+				const checkUpd = window.confirm('Update?')
+				if(checkUpd === true){
+					this.props.updateData(data)
+					this.setState({
+						userId: '',
+						firstName: '',
+						lastName: '',
+						age: '',
+						email: '',
+						address: ''
+					})
+				}
+				else{
+					return null
+				}
+				break;
+
+			case 'DELETE':
+				const checkDel = window.confirm('Delete?')
+				if(checkDel === true){
+					this.props.deleteData(userId)
+					this.setState({
+						userId: '',
+						firstName: '',
+						lastName: '',
+						age: '',
+						email: '',
+						address: ''
+					})
+				}
+				else{
+					return null
+				}
+				break;
+
+			case 'RESET':
+				this.setState({
+					userId: '',
+					firstName: '',
+					lastName: '',
+					age: '',
+					email: '',
+					address: ''
+				})
+				break;
+
+			default:
+				return null
 		}
 	}
 
-	deleteData = () => {
-		const { userId } = this.state
-		const check = window.confirm('Delete?')
-		if(check === true){
-			this.props.deleteData(userId)
-			this.setState({
-				userId: '',
-				firstName: '',
-				lastName: '',
-				age: '',
-				email: '',
-				address: ''
-			})
-		}
-		else{
-			return null
-		}
-	}
-
-	resetForm = () => {
-		this.setState({
-			userId: '',
-			firstName: '',
-			lastName: '',
-			age: '',
-			email: '',
-			address: ''
-		})
-	}
 	render(){
 		const { users } = this.props
 		const { userId,firstName, lastName, age, email, address } = this.state
@@ -135,10 +140,7 @@ class FirebaseCrud extends Component{
 						<FirebaseForm 
 							value={value}
 							onChange={this.onChange}
-							addData={this.addData}
-							updateData={this.updateData}
-							deleteData={this.deleteData}
-							resetForm={this.resetForm}
+							crudMode={this.crudMode}
 						/>
 					</ColCard>
 				</ContainerRow>

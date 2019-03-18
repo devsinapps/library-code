@@ -26,7 +26,7 @@ export class UserPass extends React.Component{
 					/>
 				</FormGroup>
 				<FormGroup className='text-center'>
-					<Button block color='primary' onClick={this.props.nextStep} disabled={!enabled} onClick={this.props.onSubmit}> Sign Up </Button>
+					<Button block color='primary' onClick={() => this.props.stepAuth('SignUp')} disabled={!enabled}> Sign Up </Button>
 				</FormGroup>
 			</Form>
 		)

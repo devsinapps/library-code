@@ -40,60 +40,24 @@ export class ArrObjCrud extends Component{
 			[e.target.id]: e.target.value
 		})
 	}
-
-	resetForm = () => {
-		this.setState({
-			userId: '',
-			name: '',
-			username: '',
-			email: '',
-			phone: '',
-			website: ''
-		})
-	}
-
-	addData = (e) => {
-		e.preventDefault();
-		const { users } = this.state
-		const { name, username, email, phone, website } = this.state
-		const newData = {
-			id: new Date(),
-			name, 
-			username, 
-			email, 
-			phone, 
-			website
-		}
-		if(name === '' || username === '' || email === '' || phone === '' || website === ''){
-			return alert('Data Masih Ada Yang Kosong')	
-		}
-		else{
-			users.unshift(newData)
-			this.setState({
-				users: users,
-				userId: '',
-				name: '',
-				username: '',
-				email: '',
-				phone: '',
-				website: ''
-			})
-		} 
-	}
-
-	updateData = () => {
-		const { users } = this.state
-		const { userId, name, username, email, phone, website } = this.state
-		const check = window.confirm('Update?')
-		if(check === true){
-			for(let i = 0; i < users.length; i++){
-				if(users[i].id && users[i].id === userId){
-					users[i].id = userId
-					users[i].name = name
-					users[i].username = username
-					users[i].email = email
-					users[i].phone = phone
-					users[i].website = website
+	
+	crudMode = (mode) => {
+		const { users, userId, name, username, email, phone, website } = this.state
+		switch(mode){
+			case 'SAVE':
+				const newData = {
+					id: new Date(),
+					name, 
+					username, 
+					email, 
+					phone, 
+					website
+				}
+				if(name === '' || username === '' || email === '' || phone === '' || website === ''){
+					return alert('Data Masih Ada Yang Kosong')	
+				}
+				else{
+					users.unshift(newData)
 					this.setState({
 						users: users,
 						userId: '',
@@ -103,32 +67,70 @@ export class ArrObjCrud extends Component{
 						phone: '',
 						website: ''
 					})
-				}
-			}
-		}
-		else{
-			return null
-		}
-	}
+				} 
+				break;
 
-	deleteData = () => {
-		const { users, userId } = this.state
-		const check = window.confirm('Delete?')
-		if(check === true){
-			for(let i = 0; i < users.length; i++){
-				if(users[i].id && users[i].id === userId){
-					users.splice(i, 1)
-					this.setState({
-						users: users,
-						userId: '',
-						name: '',
-						username: '',
-						email: '',
-						phone: '',
-						website: ''
-					})
+			case 'UPDATE':
+				const checkUpd = window.confirm('Update?')
+				if(checkUpd === true){
+					for(let i = 0; i < users.length; i++){
+						if(users[i].id && users[i].id === userId){
+							users[i].id = userId
+							users[i].name = name
+							users[i].username = username
+							users[i].email = email
+							users[i].phone = phone
+							users[i].website = website
+							this.setState({
+								users: users,
+								userId: '',
+								name: '',
+								username: '',
+								email: '',
+								phone: '',
+								website: ''
+							})
+						}
+					}
 				}
-			}
+				else{
+					return null
+				}
+				break;
+
+			case 'DELETE':
+				const checkDel = window.confirm('Delete?')
+				if(checkDel === true){
+					for(let i = 0; i < users.length; i++){
+						if(users[i].id && users[i].id === userId){
+							users.splice(i, 1)
+							this.setState({
+								users: users,
+								userId: '',
+								name: '',
+								username: '',
+								email: '',
+								phone: '',
+								website: ''
+							})
+						}
+					}
+				}
+				break;
+
+			case 'RESET':
+				this.setState({
+					userId: '',
+					name: '',
+					username: '',
+					email: '',
+					phone: '',
+					website: ''
+				});
+				break;
+
+			default:
+				return null
 		}
 	}
 	render(){
@@ -152,6 +154,7 @@ export class ArrObjCrud extends Component{
 							addData={this.addData}
 							updateData={this.updateData}
 							deleteData={this.deleteData}
+							crudMode={this.crudMode}
 						/>
 					</ColCard>
 				</ContainerRow>

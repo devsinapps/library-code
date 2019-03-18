@@ -47,91 +47,96 @@ class FirebaseCrudModal extends React.Component{
 		})
 	}
 
-	resetForm = () => {
-		this.setState({
-			modal: !this.state.modal,
-			userId: '',
-			firstName: '',
-			lastName: '',
-			age: '',
-			email: '',
-			address: ''
-		})
+	crudMode = (mode) => {
+		const { modal, userId, firstName, lastName, age, email, address } = this.state
+		switch(mode){
+			case 'SAVE':
+				const newData = {
+					firstName, 
+					lastName, 
+					age, 
+					email, 
+					address
+				}
+				if(firstName === '' || lastName === '' || age === '' || email === '' || address === ''){
+					return alert('Data Masih Ada yg Kosong')
+				}
+				else{
+					this.props.addData(newData)
+					this.setState({
+						modal: !this.state.modal,
+						firstName: '',
+						lastName: '',
+						age: '',
+						email: '',
+						address: ''
+					})
+				}
+				break;
+
+			case 'UPDATE':
+				const data = {
+					userId, 
+					firstName, 
+					lastName, 
+					age, 
+					email, 
+					address
+				}
+				const checkUpd = window.confirm('Update?')
+				if(checkUpd === true){
+					this.props.updateData(data)
+					this.setState({
+						modal: !this.state.modal,
+						userId: '',
+						firstName: '',
+						lastName: '',
+						age: '',
+						email: '',
+						address: ''
+					})
+				}
+				else{
+					return null
+				}
+				break;
+
+			case 'DELETE':
+				const checkDel = window.confirm('Delete?')
+				if(checkDel === true){
+					this.props.deleteData(userId)
+					this.setState({
+						modal: !this.state.modal,
+						userId: '',
+						firstName: '',
+						lastName: '',
+						age: '',
+						email: '',
+						address: ''
+					})
+				}
+				else{
+					return null
+				}
+				break;
+
+			case 'RESET':
+				this.setState({
+					modal: !this.state.modal,
+					userId: '',
+					firstName: '',
+					lastName: '',
+					age: '',
+					email: '',
+					address: ''
+				})
+				break;
+
+			default:
+				return null
+		}
 	}
 
-	addData = (e) => {
-		e.preventDefault();
-		const { firstName, lastName, age, email, address } = this.state
-		const newData = {
-			firstName, 
-			lastName, 
-			age, 
-			email, 
-			address
-		}
-		if(firstName === '' || lastName === '' || age === '' || email === '' || address === ''){
-			return alert('Data Masih Ada yg Kosong')
-		}
-		else{
-			this.props.addData(newData)
-			this.setState({
-				modal: !this.state.modal,
-				firstName: '',
-				lastName: '',
-				age: '',
-				email: '',
-				address: ''
-			})
-		}
-	}
-
-	updateData = () => {
-		const { userId, firstName, lastName, age, email, address } = this.state
-		const data = {
-			userId, 
-			firstName, 
-			lastName, 
-			age, 
-			email, 
-			address
-		}
-		const check = window.confirm('Update?')
-		if(check === true){
-			this.props.updateData(data)
-			this.setState({
-				modal: !this.state.modal,
-				userId: '',
-				firstName: '',
-				lastName: '',
-				age: '',
-				email: '',
-				address: ''
-			})
-		}
-		else{
-			return null
-		}
-	}
-
-	deleteData = () => {
-		const { userId } = this.state
-		const check = window.confirm('Delete?')
-		if(check === true){
-			this.props.deleteData(userId)
-			this.setState({
-				modal: !this.state.modal,
-				userId: '',
-				firstName: '',
-				lastName: '',
-				age: '',
-				email: '',
-				address: ''
-			})
-		}
-		else{
-			return null
-		}
-	}
 	render(){
 		const { modal } = this.state
 		const { users } = this.props
@@ -155,6 +160,7 @@ class FirebaseCrudModal extends React.Component{
 						addData={this.addData}
 						updateData={this.updateData}
 						deleteData={this.deleteData}
+						crudMode={this.crudMode}
 					/>
 				</ContainerRow>
 			</div>

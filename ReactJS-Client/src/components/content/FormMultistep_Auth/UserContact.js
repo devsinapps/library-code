@@ -28,7 +28,7 @@ export class UserContact extends React.Component{
 					/>
 				</FormGroup>
 				<FormGroup className='text-center'>
-					<Button block color='primary' onClick={this.props.nextStepInfo} disabled={!enabled}> Next </Button>
+					<Button block color='primary' onClick={()=>this.props.stepAuth('UserContact')} disabled={!enabled}> Next </Button>
 				</FormGroup>
 			</Form>
 		)

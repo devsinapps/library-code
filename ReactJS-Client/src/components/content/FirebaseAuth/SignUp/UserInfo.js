@@ -48,7 +48,7 @@ export class UserInfo extends React.Component{
 					</Col>
 				</Row>
 				<FormGroup className='text-center'>
-					<Button block color='primary' onClick={this.props.nextStep} disabled={!enabled}> Next </Button>
+					<Button block color='primary' onClick={() => this.props.stepAuth('UserInfo')} disabled={!enabled}> Next </Button>
 				</FormGroup>
 			</Form>
 		)

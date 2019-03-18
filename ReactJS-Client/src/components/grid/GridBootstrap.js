@@ -30,35 +30,30 @@ export class ColCard extends React.Component{
 		const { lgCol, mdCol, smCol, xsCol, colClass, brCard, tlCard, children } = this.props
 		const currentHeight = height + 50;
 		const dropdownCard = isExpanded ?  0 : currentHeight;
-		let styleOpacity = ''
-		if(isExpanded){
-			styleOpacity = {
-				opacity: '0',
-				transition: 'all .3s'
+		const style = {
+			styleCard: {
+				boxShadow: '0px 0px 1px 1px rgba(0,0,0,.2)'
+			},
+			styleHeader: {
+				backgroundImage: 'linear-gradient(to right, #f1f2f6, #fdfdfd)'
+			},
+			styleBody: {
+				transition: 'all .3s',
+				overflow: 'hidden',
+				height: dropdownCard + 'px' 
+			},
+			styleOpacity: {
+				opacity: isExpanded ? '0' : '1',
+				transition: isExpanded ? 'all .3s' : 'all .3s'
 			}
-		}else{
-			styleOpacity = {
-				opacity: '1',
-				transition: 'all .3s'
-			}
 		}
-		const styleCard = {
-			boxShadow: '0px 0px 1px 1px rgba(0,0,0,.2)'
-		}
-		const styleHeader = {
-			backgroundImage: 'linear-gradient(to right, #f1f2f6, #fdfdfd)'
-		}
-		const styleBody = {
-			transition: 'all .3s',
-			overflow: 'hidden',
-			height: dropdownCard + 'px' 
-		}
+		const viewHeader = tlCard === '' ? null : <CardHeader style={style.styleHeader} onClick={this.toggle}> {tlCard} </CardHeader> ;
 		return(
 			<Col lg={lgCol} md={mdCol} sm={smCol} xs={xsCol} className={colClass}>
-				<Card className={brCard}  style={styleCard}>
-					<CardHeader style={styleHeader} onClick={this.toggle}> {tlCard} </CardHeader>
-					<CardBody style={styleBody}>
-						<div ref='inner' style={styleOpacity}>
+				<Card className={brCard}  style={style.styleCard}>
+					{viewHeader}
+					<CardBody style={style.styleBody}>
+						<div ref='inner' style={style.styleOpacity}>
 							{children}
 						</div>
 					</CardBody>

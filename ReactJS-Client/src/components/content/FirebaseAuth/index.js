@@ -38,7 +38,7 @@ class FirebaseAuth extends React.Component{
 				<Button color='primary' onClick={this.signInCase}> Sign In </Button> {' '}
 				<Button color='info' onClick={this.signUpCase}> Sign Up </Button> {' '}
 				<ContainerRow>
-					<ColCard lgCol='8' mdCol='8' smCol='8' xsCol='8' colClass='mx-auto' brCard='mb-3' tlCard='Firebase Auth'>
+					<ColCard lgCol='4' mdCol='4' smCol='4' xsCol='4' colClass='mx-auto' brCard='mb-3' tlCard='Firebase Auth'>
 						{Auth}
 					</ColCard>
 				</ContainerRow>
@@ -50,7 +50,6 @@ class FirebaseAuth extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-	console.log(state)
 	return{
 		auth: state.firebase.auth,
 		profile: state.firebase.profile

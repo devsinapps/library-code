@@ -18,33 +18,43 @@ export class FMAuth extends React.Component{
 		password: '',
 		checkpass: ''
 	}
-
-	nextStep = (e) => {
-		e.preventDefault();
-		const { step } = this.state
-		this.setState({
-			step: step + 1
-		})
+	
+	stepAuth = (mode) => {
+		const { step, firstName, lastName, age, gender, email, phone, password, checkpass } = this.state
+		switch(mode){
+			case 'UserInfo':
+				this.setState({
+					step: step + 1
+				})
+				break;
+			case 'UserContact':
+				const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				if(!regex.test(email)){
+					alert('Email Invalid')
+				}else{
+					this.setState({
+						step: step + 1
+					})
+				}
+				break;
+			case 'SignUp':
+				if(password !== checkpass){
+					alert('Password not confirmed')
+				}else{
+					this.setState({
+						step: step + 1
+					})
+				}
+				break;
+			default:
+				return null
+		}
 	}
 
 	onChange = (e) => {
 		this.setState({
 			[e.target.id]: e.target.value
 		})
-	}
-
-	//Handle Component Contact
-	nextStepInfo = (e) => {
-		e.preventDefault();
-		const { step, email } = this.state
-		const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		if(!regex.test(email)){
-			return alert('Email Invalid')
-		}else{
-			this.setState({
-				step: step + 1
-			})
-		}
 	}
 
 	//Handle Form Input Phone
@@ -62,18 +72,6 @@ export class FMAuth extends React.Component{
 		}
 	}
 
-	//Handle Component Password
-	onSubmit = (e) => {
-		e.preventDefault();
-		const { step, password, checkpass } = this.state
-		if(password !== checkpass){
-			return alert('Password Wrong')
-		}else{
-			this.setState({
-				step: step + 1
-			})
-		}
-	}
 	render(){
 		const { step } = this.state 
 		const { firstName, lastName, age, gender, email, phone, password, checkpass } = this.state
@@ -85,7 +83,7 @@ export class FMAuth extends React.Component{
 						<ColCard lgCol='5' mdCol='5' smCol='5' xsCol='5' colClass='mx-auto' brCard='mb-3' tlCard='User Info'>
 							<UserInfo 
 								value={value}
-								nextStep={this.nextStep}
+								stepAuth={this.stepAuth}
 								onChange={this.onChange}
 							/>
 						</ColCard>
@@ -97,7 +95,7 @@ export class FMAuth extends React.Component{
 						<ColCard lgCol='5' mdCol='5' smCol='5' xsCol='5' colClass='mx-auto' brCard='mb-3' tlCard='User Contact'>
 							<UserContact
 								value={value} 
-								nextStepInfo={this.nextStepInfo}
+								stepAuth={this.stepAuth}
 								onChange={this.onChange}
 								onChangeOnContact={this.onChangeOnContact}
 							/>
@@ -110,7 +108,7 @@ export class FMAuth extends React.Component{
 						<ColCard lgCol='5' mdCol='5' smCol='5' xsCol='5' colClass='mx-auto' brCard='mb-3' tlCard='User Security'>
 							<UserPass 
 								value={value}
-								onSubmit={this.onSubmit}
+								stepAuth={this.stepAuth}
 								onChange={this.onChange}
 							/>
 						</ColCard>

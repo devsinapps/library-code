@@ -6,7 +6,7 @@ export class DataForm extends Component{
 	render(){
 		const { value } = this.props
 		return(
-			<Form onSubmit={this.props.addData}>
+			<Form>
 				<Row form>
 					<Col lg='4'>
 						<FormGroup>
@@ -60,10 +60,10 @@ export class DataForm extends Component{
 					</Col>
 				</Row>
 				<FormGroup className='text-center'>
-					<Button> Save </Button> {' '}
-					<Button onClick={this.props.updateData}> Update </Button> {' '}
-					<Button onClick={this.props.deleteData}> Delete </Button> {' '}
-					<Button onClick={this.props.resetForm}> Reset </Button>
+					<Button onClick={() => this.props.crudMode('SAVE')}> Save </Button> {' '}
+					<Button onClick={() => this.props.crudMode('UPDATE')}> Update </Button> {' '}
+					<Button onClick={() => this.props.crudMode('DELETE')}> Delete </Button> {' '}
+					<Button onClick={() => this.props.crudMode('RESET')}> Reset </Button>
 				</FormGroup>
 			</Form>
 		)

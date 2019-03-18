@@ -51,10 +51,10 @@ export class FirebaseModal extends React.Component{
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup className='text-center'>
-	         			<Button color='primary' onClick={this.props.addData}> Save </Button> {' '}
-	         			<Button color='warning' onClick={this.props.updateData}> Update </Button> {' '}
-	         			<Button color='danger' onClick={this.props.deleteData}> Delete </Button> {' '}
-	         			<Button color='info' onClick={this.props.resetForm}> Reset </Button>
+	         			<Button color='primary' onClick={() => this.props.crudMode('SAVE')}> Save </Button> {' '}
+	         			<Button color='warning' onClick={() => this.props.crudMode('UPDATE')}> Update </Button> {' '}
+	         			<Button color='danger' onClick={() => this.props.crudMode('DELETE')}> Delete </Button> {' '}
+	         			<Button color='info' onClick={() => this.props.crudMode('RESET')}> Reset </Button>
 	         		</FormGroup>
 	         	</Form>
 	          </ModalBody>
