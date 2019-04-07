@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 //Actions
 import { addData, updateData, deleteData } from './../../../store/actions/firebaseCrudActions'
 //Tools
-import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
+//MDBReact
+import { MDBInput, MDBBtn, ToastContainer, toast } from "mdbreact";
 //Component
 import { FirebaseTable } from './FirebaseTable'
-import FirebaseForm from './FirebaseForm'
+import { FirebaseForm } from './FirebaseForm'
 class FirebaseCrud extends Component{
 	state = {
 		userId: '',
@@ -20,26 +20,36 @@ class FirebaseCrud extends Component{
 		address: ''
 	}
 
-	getDataRow = (user) => {
-		this.setState({
-			userId: user.id,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			age: user.age,
-			email: user.email,
-			address: user.address
-		})
-	}
-
 	onChange = (e) => {
 		this.setState({
 			[e.target.id]: e.target.value
 		})
 	}
 
-	crudMode = (mode) => {
+	notify = (type) => {
+		switch(type){
+			case "EMPTY":
+			toast.error('Form Cannot Empty', {
+	          autoClose: 3000
+	        });
+	        break;
+		}
+	}
+
+	formAction = (mode, data) => {
 		const { userId, firstName, lastName, age, email, address } = this.state
 		switch(mode){
+			case 'GETDATA':
+				this.setState({
+					userId: data.id,
+					firstName: data.firstName,
+					lastName: data.lastName,
+					age: data.age,
+					email: data.email,
+					address: data.address
+				})
+				break;
+
 			case 'SAVE':
 				const newData = {
 					firstName, 
@@ -49,7 +59,7 @@ class FirebaseCrud extends Component{
 					address
 				}
 				if(firstName === '' || lastName === '' || age === '' || email === '' || address === ''){
-					return alert('Data Masih Ada yg Kosong')
+					this.notify('EMPTY')
 				}
 				else{
 					this.props.addData(newData)
@@ -64,7 +74,7 @@ class FirebaseCrud extends Component{
 				break;
 
 			case 'UPDATE':
-				const data = {
+				const dataUpd = {
 					userId, 
 					firstName, 
 					lastName, 
@@ -74,7 +84,7 @@ class FirebaseCrud extends Component{
 				}
 				const checkUpd = window.confirm('Update?')
 				if(checkUpd === true){
-					this.props.updateData(data)
+					this.props.updateData(dataUpd)
 					this.setState({
 						userId: '',
 						firstName: '',
@@ -124,48 +134,42 @@ class FirebaseCrud extends Component{
 	}
 
 	render(){
-		const { users } = this.props
+		const { dataRoutes } = this.props
 		const { userId,firstName, lastName, age, email, address } = this.state
 		const value = { userId,firstName, lastName, age, email, address }
 		return(
 			<div id='ArrObjCrud'>
-				<ContainerRow>
-					<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' brCard='mb-3' tlCard='Firebase Crud'>
+				<ContainerFluidRow>
+					<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='Firebase Crud'>
 						<FirebaseTable 
-							users={users}
-							getDataRow={this.getDataRow}
+							dataRoutes={dataRoutes}
+							formAction={this.formAction}
 						/>
-					</ColCard>
-					<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' brCard='mb-3' tlCard='Firebase Crud'>
+					</Collapsible>
+					<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='Firebase Crud'>
 						<FirebaseForm 
 							value={value}
 							onChange={this.onChange}
-							crudMode={this.crudMode}
+							formAction={this.formAction}
 						/>
-					</ColCard>
-				</ContainerRow>
+					</Collapsible>
+					<ToastContainer
+			          hideProgressBar={true}
+			          newestOnTop={true}
+			          autoClose={5000}
+			        />
+				</ContainerFluidRow>
 			</div>
 		)
-	}
-}
-
-const mapStateToProps = (state) => {
-	return{
-		users: state.firestore.ordered.users
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return{
 		addData: (newData) => dispatch(addData(newData)),
-		updateData: (data) => dispatch(updateData(data)),
+		updateData: (dataUpd) => dispatch(updateData(dataUpd)),
 		deleteData: (userId) => dispatch(deleteData(userId)),
 	}
 }
 
-export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	firestoreConnect([{
-		collection: 'users'
-	}])
-	)(FirebaseCrud)
+export default connect(null, mapDispatchToProps)(FirebaseCrud)

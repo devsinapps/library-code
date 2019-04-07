@@ -3,8 +3,7 @@ import React from 'react'
 import firebase from './../../../config/firebaseConfig'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
-
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 class FirebaseAuthMediaSocial extends React.Component{
 	state = {
 		isSignedin: false
@@ -37,8 +36,8 @@ class FirebaseAuthMediaSocial extends React.Component{
 		const { isSignedin } = this.state
 		return(
 			<div id='FirebaseAuthMediaSocial'>
-				<ContainerRow>
-					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' colClass='mx-auto' brCard='mb-3' tlCard='Auth'>
+				<ContainerFluidRow rowClass='justify-content-center'>
+					<Collapsible lgCol='6' mdCol='6' smCol='6' brCard='mb-3' tlCard='Auth'>
 					{isSignedin ?
 						(
 							<div>
@@ -58,8 +57,8 @@ class FirebaseAuthMediaSocial extends React.Component{
 						) 
 					}
 
-					</ColCard>
-				</ContainerRow>
+					</Collapsible>
+				</ContainerFluidRow>
 			</div>
 		)
 	}

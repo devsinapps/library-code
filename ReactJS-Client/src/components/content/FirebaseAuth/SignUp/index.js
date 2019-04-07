@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { UserInfo } from './UserInfo'
 import { UserContact } from './UserContact'
 import { UserPass } from './UserPass'
+//MDBReact
+import { MDBInput, MDBBtn, ToastContainer, toast } from "mdbreact";
 class SignUp extends React.Component{
 	state = {
 		step: 1,
@@ -40,37 +42,62 @@ class SignUp extends React.Component{
 		}
 	}
 
+	notify = (type) => {
+		switch(type){
+			case "EmailInvalid":
+		        toast.error('Email Invalid', {
+		          autoClose: 3000
+		        });
+		        break;
+
+	        case "PasswordNotConfirmed":
+		        toast.error('Password Not Confirmed', {
+		          autoClose: 3000
+		        });
+		        break;
+		}
+	}
+
 	stepAuth = (mode) => {
 		const { step, firstName, lastName, gender, age, email, phone, password, keypass } = this.state
-		if(mode === 'UserInfo'){
-			this.setState({
-				step: step + 1
-			})
-		}else if(mode === 'UserContact'){
-			const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			if(!regex.test(email)){
-				alert('Email Invalid')
-			}else{
+		switch(mode){
+			case 'UserInfo':
 				this.setState({
 					step: step + 1
 				})
-			}
-		}else if(mode === 'SignUp'){
-			const parseAge = parseInt(age);
-			const newUser = {
-				firstName, 
-				lastName, 
-				gender, 
-				age: parseAge, 
-				email, 
-				phone, 
-				password
-			}
-			if(password !== keypass){
-				alert('Password Not Confirmed')
-			}else{
-				this.props.signUp(newUser)
-			}
+				break;
+
+			case 'UserContact':
+				const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				if(!regex.test(email)){
+					this.notify('EmailInvalid')
+				}else{
+					this.setState({
+						step: step + 1
+					})
+				}
+				break;
+
+			case 'SignUp':
+				const parseAge = parseInt(age);
+				const newUser = {
+					firstName, 
+					lastName, 
+					gender, 
+					age: parseAge, 
+					email, 
+					phone, 
+					password
+				}
+				if(password !== keypass){
+					this.notify('PasswordNotConfirmed')
+				}else{
+					this.props.signUp(newUser)
+				}
+				break;
+
+			default:
+				return null
 		}
 	}
 

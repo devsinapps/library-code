@@ -1,6 +1,6 @@
 import React from 'react'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Reactstrap
 import { CardColumns } from 'reactstrap'
 //Component
@@ -28,20 +28,20 @@ export class FetchAPI_Food2Fork extends React.Component{
 		const { recipes } = this.state
 		return(
 			<div id='FetchAPI_Food2Fork'>
-				<ContainerRow>
-					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' brCard='mb-3' tlCard='Search Form'>
+				<ContainerFluidRow>
+					<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='Search Form'>
 						<F2FForm 
 							getRecipes={this.getRecipes}
 						/>
-					</ColCard>
-				</ContainerRow>
-				<ContainerRow>
+					</Collapsible>
+				</ContainerFluidRow>
+				<ContainerFluidRow>
 					<CardColumns>
 						<F2FSummary 
 							recipes={recipes}
 						/>
 					</CardColumns>
-				</ContainerRow>
+				</ContainerFluidRow>
 			</div>
 		)
 	}

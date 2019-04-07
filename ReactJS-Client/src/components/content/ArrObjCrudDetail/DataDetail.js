@@ -1,7 +1,7 @@
 import React from 'react'
 
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Reactstrap
 import { CardTitle, Button } from 'reactstrap'
 //Component
@@ -68,8 +68,8 @@ export class DataDetail extends React.Component{
 		if(user){
 			return(
 				<div>
-					<ContainerRow>
-						<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' colClass='mx-auto' brCard='mb-3' tlCard='Data Detail'>
+					<ContainerFluidRow rowClass='justify-content-center'>
+						<Collapsible lgCol='6' mdCol='6' smCol='6' brCard='mb-3' tlCard='Data Detail'>
 							<CardTitle> {user.name} </CardTitle>
 							<ul>
 								<li> {user.username} </li>
@@ -77,17 +77,17 @@ export class DataDetail extends React.Component{
 								<li> {user.website} </li>
 							</ul>
 							<Button onClick={this.getDataToForm}> Update </Button>
-						</ColCard> 
-					</ContainerRow>
-					<ContainerRow>
-						<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' colClass='mx-auto' brCard='mb-3' tlCard='Data Detail'>
+						</Collapsible> 
+					</ContainerFluidRow>
+					<ContainerFluidRow rowClass='justify-content-center'>
+						<Collapsible lgCol='6' mdCol='6' smCol='6' brCard='mb-3' tlCard='Data Detail'>
 							<DataForm 
 								value={value}
 								onChange={this.onChange}
 								updateUser={this.updateUser}
 							/>
-						</ColCard> 
-					</ContainerRow>
+						</Collapsible> 
+					</ContainerFluidRow>
 				</div>
 			)
 		}

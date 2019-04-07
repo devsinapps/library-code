@@ -1,13 +1,11 @@
 import React from 'react'
+//reactstrap
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
-
-export class FirebaseModal extends React.Component{
-	render(){
-		const { value } = this.props
-		return(
+export const FirebaseModal = ({value, modal, className, onChange, formAction}) => {
+	return(
 		<div>
-	        <Modal isOpen={this.props.modal} toggle={this.props.toggleModal} className={this.props.className}>
-	          <ModalHeader toggle={this.props.toggleModal}>Modal title</ModalHeader>
+	        <Modal isOpen={modal} toggle={() => formAction('RESET', '')} className={className}>
+	          <ModalHeader toggle={() => formAction('RESET', '')}>Modal title</ModalHeader>
 	          <ModalBody>
 	         	<Form>
 	         		<FormGroup>
@@ -15,7 +13,7 @@ export class FirebaseModal extends React.Component{
 	         			<Input 
 	         				id='firstName'
 	         				value={value.firstName}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup>
@@ -23,7 +21,7 @@ export class FirebaseModal extends React.Component{
 	         			<Input 
 	         				id='lastName'
 	         				value={value.lastName}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup>
@@ -31,7 +29,7 @@ export class FirebaseModal extends React.Component{
 	         			<Input 
 	         				id='age'
 	         				value={value.age}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup>
@@ -39,7 +37,7 @@ export class FirebaseModal extends React.Component{
 	         			<Input 
 	         				id='email'
 	         				value={value.email}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup>
@@ -47,19 +45,18 @@ export class FirebaseModal extends React.Component{
 	         			<Input 
 	         				id='address'
 	         				value={value.address}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup className='text-center'>
-	         			<Button color='primary' onClick={() => this.props.crudMode('SAVE')}> Save </Button> {' '}
-	         			<Button color='warning' onClick={() => this.props.crudMode('UPDATE')}> Update </Button> {' '}
-	         			<Button color='danger' onClick={() => this.props.crudMode('DELETE')}> Delete </Button> {' '}
-	         			<Button color='info' onClick={() => this.props.crudMode('RESET')}> Reset </Button>
+	         			<Button color='primary' onClick={() => formAction('SAVE', '')}> Save </Button> {' '}
+	         			<Button color='warning' onClick={() => formAction('UPDATE', '')}> Update </Button> {' '}
+	         			<Button color='danger' onClick={() => formAction('DELETE', '')}> Delete </Button> {' '}
+	         			<Button color='info' onClick={() => formAction('RESET', '')}> Reset </Button>
 	         		</FormGroup>
 	         	</Form>
 	          </ModalBody>
 	        </Modal>
 	    </div>
-		)
-	}
+	)
 }

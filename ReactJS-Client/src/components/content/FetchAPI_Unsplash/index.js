@@ -1,6 +1,6 @@
 import React from 'react'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Reactstrap
 import { CardColumns } from 'reactstrap'
 //Component
@@ -53,14 +53,14 @@ export class FetchAPI_Unsplash extends React.Component{
 		const { randomImgs, searchImgs } = this.state
 		return(
 			<div id="Unsplash">
-				<ContainerRow>
-					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' brCard='mb-3' tlCard='search'>
+				<ContainerFluidRow>
+					<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='search'>
 						<UnsplashForm 
 							getSearchImgs={this.getSearchImgs}
 						/>
-					</ColCard>
-				</ContainerRow>
-				<ContainerRow>
+					</Collapsible>
+				</ContainerFluidRow>
+				<ContainerFluidRow>
 					<CardColumns>
 						<UnsplashSummary 
 							randomImgs={randomImgs}
@@ -68,7 +68,7 @@ export class FetchAPI_Unsplash extends React.Component{
 							getNextSearchImgs={this.getNextSearchImgs}
 						/>
 					</CardColumns>
-				</ContainerRow>
+				</ContainerFluidRow>
 			</div>
 		)
 	}

@@ -4,44 +4,51 @@ import { signOut } from './../../../store/actions/firebaseAuthActions'
 //Tools
 import { connect } from 'react-redux'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Reactstrap
 import { Button } from 'reactstrap'
 //Component
 import SignIn from './SignIn'
 import SignUp from './SignUp'
-import AuthView from './AuthView'
+import { AuthView } from './AuthView'
 class FirebaseAuth extends React.Component{
 	state = {
 		caseAuth: 1
 	}
 
-	signInCase = () => {
-		this.setState({
-			caseAuth: 1
-		})
-	}
+	formAction = (mode) => {
+		switch(mode){
+			case 'SIGNIN':
+				this.setState({
+					caseAuth: 1
+				})
+				break;
 
-	signUpCase = () => {
-		this.setState({
-			caseAuth: 2
-		})
+			case 'SIGNUP':
+				this.setState({
+					caseAuth: 2
+				})
+				break;
+
+			default: 
+				return null
+		}
 	}
 
 	render(){
 		const { caseAuth } = this.state
 		const { auth, profile } = this.props
 		const Auth = caseAuth == 1 ? <SignIn /> : <SignUp />;
-		const ViewProfile = auth.uid !== null ? null  : <AuthView profile={profile}/>;
+
 		return(
 			<div id='FirebaseAuth'>
-				<Button color='primary' onClick={this.signInCase}> Sign In </Button> {' '}
-				<Button color='info' onClick={this.signUpCase}> Sign Up </Button> {' '}
-				<ContainerRow>
-					<ColCard lgCol='4' mdCol='4' smCol='4' xsCol='4' colClass='mx-auto' brCard='mb-3' tlCard='Firebase Auth'>
+				<Button color='primary' onClick={()=>this.formAction('SIGNIN')}> Sign In </Button> {' '}
+				<Button color='info' onClick={()=>this.formAction('SIGNUP')}> Sign Up </Button> {' '}
+				<ContainerFluidRow rowClass='justify-content-center'>
+					<Collapsible lgCol='4' mdCol='4' smCol='4' brCard='mb-3' tlCard='Firebase Auth'>
 						{Auth}
-					</ColCard>
-				</ContainerRow>
+					</Collapsible>
+				</ContainerFluidRow>
 				<AuthView profile={profile}/>
 				<Button color='info' onClick={this.props.signOut}> Sign Out </Button> {' '}
 			</div>

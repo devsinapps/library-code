@@ -4,39 +4,29 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Component
-import FirebaseSummary from './FirebaseSummary'
+import { FirebaseSummary } from './FirebaseSummary'
 class FirebaseCrudDetailPage extends React.Component{
 	render(){
 		//this props from mapStateToProps below
-		const { users } = this.props 
-		return(
+		const { dataRoutes } = this.props
+		const users = dataRoutes.firestore.ordered.users
+ 		return(
 			<div id='FirebaseCrudDetailPage'>
-				<ContainerRow>
-					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' brCard='mb-3' tlCard='Data'>
+				<ContainerFluidRow>
+					<Collapsible lgCol='12' mdCol='12' smCol='12'  brCard='mb-3' tlCard='Data'>
 						{users && users.map((user)=>{
 							return(
 								<FirebaseSummary key={user.id} user={user} getDataUser={this.getDataUser}/>
 							)
 						})
 						}
-					</ColCard>
-				</ContainerRow>
+					</Collapsible>
+				</ContainerFluidRow>
 			</div>
 		)
 	}
 }
 
-const mapStateToProps = (state) => {
-	return{
-		users: state.firestore.ordered.users
-	}
-}
-
-export default compose(
-	connect(mapStateToProps),
-	firestoreConnect([{
-		collection: 'users'
-	}])
-	)(FirebaseCrudDetailPage)
+export default FirebaseCrudDetailPage

@@ -1,25 +1,12 @@
 import React from 'react'
-
 //Reactstrap
 import { Row, Col, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap';
-export class PostgreModal extends React.Component{
-	state = {
-		city: []
-	}
-
-	getCity = (country) => {
-		this.setState({
-			city: country.states
-		})
-	}
-	render(){
-		const { city } = this.state
-		const { value, countries } = this.props
-		const enabled = value.employeeId > 0;
-		return(
-			<div>
-	        <Modal isOpen={this.props.modal} toggle={this.props.toggleModal} className={this.props.className}>
-	          <ModalHeader toggle={this.props.toggleModal}>Modal title</ModalHeader>
+export const PostgreModal = ({value, modal, className, dataRoutes, onChange, formAction}) => {
+	const enabled = value.employeeId > 0;
+	return(
+		<div>
+	        <Modal isOpen={modal} toggle={()=>formAction('RESET', '')} className={className}>
+	          <ModalHeader toggle={()=>formAction('RESET', '')}>Modal title</ModalHeader>
 	          <ModalBody>
 	         	<Form>
 	         		<FormGroup>
@@ -27,7 +14,7 @@ export class PostgreModal extends React.Component{
 	         			<Input 
 	         				id='firstname'
 	         				value={value.firstname}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup>
@@ -35,14 +22,14 @@ export class PostgreModal extends React.Component{
 	         			<Input 
 	         				id='lastname'
 	         				value={value.lastname}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<Row>
 	         			<Col lg='8'>
 	         				<FormGroup>
 			         			<Label htmlFor='gender'> Gender </Label>
-			         			<CustomInput type='select' id='gender' onChange={this.props.onChange}>
+			         			<CustomInput type='select' id='gender' onChange={onChange}>
 			         				<option vaue={value.gender}> {value.gender} </option>
 			         				<option vaue='male'> Male </option>
 			         				<option vaue='female'> Female </option>
@@ -56,7 +43,7 @@ export class PostgreModal extends React.Component{
 			         				id='age'
 			         				type='number'
 			         				value={value.age}
-			         				onChange={this.props.onChange}
+			         				onChange={onChange}
 			         			/>
 			         		</FormGroup>
 			         	</Col>
@@ -66,25 +53,25 @@ export class PostgreModal extends React.Component{
 	         			<Input 
 	         				id='email'
 	         				value={value.email}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup>
 	         			<Label htmlFor='country'> Country </Label>
-	         			<CustomInput type='select' id='country' onChange={this.props.onChange}>
+	         			<CustomInput type='select' id='country' onChange={onChange}>
 	         				<option value={value.country}> {value.country} </option>
-	         				{countries.map((country)=>{
+	         				{dataRoutes.countries.map((data)=>{
 	         					return(
-	         						<option value={country.country} onClick={() => this.getCity(country)}> {country.country} </option>
+	         						<option value={data.country} onClick={() => formAction('GETCITY', data)}> {data.country} </option>
 	         					)
 	         				})}
 	         			</CustomInput>
 	         		</FormGroup>
 	         		<FormGroup>
 	         			<Label htmlFor='city'> City </Label>
-	         			<CustomInput type='select' id='city' onChange={this.props.onChange}>
+	         			<CustomInput type='select' id='city' onChange={onChange}>
 	         				<option value={value.city}> {value.city} </option>
-	         				{city.map((list)=>{
+	         				{value.getCity.map((list)=>{
 	         					return(
 	         						<option value={list}> {list} </option>
 	         					)
@@ -96,7 +83,7 @@ export class PostgreModal extends React.Component{
 	         			<Input 
 	         				id='address'
 	         				value={value.address}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup>
@@ -104,7 +91,7 @@ export class PostgreModal extends React.Component{
 	         			<Input 
 	         				id='education'
 	         				value={value.education}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup>
@@ -113,19 +100,18 @@ export class PostgreModal extends React.Component{
 	         				id='joindate'
 	         				type='date'
 	         				value={value.joindate}
-	         				onChange={this.props.onChange}
+	         				onChange={onChange}
 	         			/>
 	         		</FormGroup>
 	         		<FormGroup className='text-center'>
-	         			<Button color='primary' onClick={this.props.addData} disabled={enabled}> Save </Button> {' '}
-	         			<Button color='warning' onClick={this.props.updateData} disabled={!enabled}> Update </Button> {' '}
-	         			<Button color='danger' onClick={this.props.deleteData} disabled={!enabled}> Delete </Button> {' '}
-	         			<Button color='info' onClick={this.props.resetForm}> Reset </Button>
+	         			<Button color='primary' onClick={()=>formAction('SAVE', '')} disabled={enabled}> Save </Button> {' '}
+	         			<Button color='warning' onClick={()=>formAction('UPDATE', '')} disabled={!enabled}> Update </Button> {' '}
+	         			<Button color='danger' onClick={()=>formAction('DELETE', '')} disabled={!enabled}> Delete </Button> {' '}
+	         			<Button color='info' onClick={()=>formAction('RESET', '')}> Reset </Button>
 	         		</FormGroup>
 	         	</Form>
 	          </ModalBody>
 	        </Modal>
-	    </div>
-		)
-	}
+    	</div>
+	)
 }

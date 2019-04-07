@@ -1,5 +1,4 @@
 import React from 'react'
-
 //Reactstrap
 import { Table } from 'reactstrap'
 export const GraphTable = () => {

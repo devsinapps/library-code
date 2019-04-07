@@ -1,7 +1,7 @@
 import React from 'react'
 
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Reactstrap
 import { Button } from 'reactstrap'
 //Component
@@ -27,33 +27,27 @@ export class ArrObjCrudModal extends React.Component{
 		}))
 	}
 
-	toggleModal = () => {
-		this.setState({
-			modal: !this.state.modal
-		})
-	}
-
-	toggleTable = (user) => {
-		this.setState({
-			modal: !this.state.modal,
-			userId: user.id,
-			name: user.name,
-			username: user.username,
-			email: user.email,
-			phone: user.phone,
-			website: user.website
-		})
-	}
-
 	onChange = (e) => {
 		this.setState({
 			[e.target.id]: e.target.value
 		})
 	}
 
-	crudMode = (mode) => {
+	formAction = (mode, data) => {
 		const { users, userId, modal, name, username, email, phone, website } = this.state
 		switch(mode){
+			case 'GETDATA':
+				this.setState({
+					modal: !this.state.modal,
+					userId: data.id,
+					name: data.name,
+					username: data.username,
+					email: data.email,
+					phone: data.phone,
+					website: data.website
+				})
+				break;
+
 			case 'SAVE':
 				const newData = { 
 					id: new Date(),
@@ -148,6 +142,18 @@ export class ArrObjCrudModal extends React.Component{
 				})
 				break;
 
+			case 'OPEN':
+				this.setState({
+					modal: !this.state.modal,
+					userId: '',
+					name: '',
+					username: '',
+					email: '',
+					phone: '',
+					website: ''
+				})
+				break;
+
 			default:
 				return null
 		}
@@ -159,22 +165,20 @@ export class ArrObjCrudModal extends React.Component{
 		const value = { userId, name, username, email, phone, website }
 		return(
 			<div id='ArrObjCrudModal'>
-				<ContainerRow>
-					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' brCard='mb-3' tlCard='Data Table'>
+				<ContainerFluidRow>
+					<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='Data Table'>
 						<DataTable 
 							users={users}
-							toggleTable={this.toggleTable}
+							formAction={this.formAction}
 						/>
-						<Button color='primary' onClick={this.toggleModal}> + </Button>
-					</ColCard>
-				</ContainerRow>
+						<Button color='primary' onClick={()=>this.formAction('OPEN', '')}> + </Button>
+					</Collapsible>
+				</ContainerFluidRow>
 				<DataModal 
 					modal={modal}
 					value={value}
-					toggleModal={this.toggleModal}
-					toggleTable={this.toggleTable}
 					onChange={this.onChange}
-					crudMode={this.crudMode}
+					formAction={this.formAction}
 				/>
 			</div>
 		)

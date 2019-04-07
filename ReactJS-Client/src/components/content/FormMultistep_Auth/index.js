@@ -1,6 +1,6 @@
 import React from 'react'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Component 
 import { UserInfo } from './UserInfo'
 import { UserContact } from './UserContact'
@@ -79,40 +79,40 @@ export class FMAuth extends React.Component{
 		switch(step){
 			case 1:
 				return(
-					<ContainerRow>
-						<ColCard lgCol='5' mdCol='5' smCol='5' xsCol='5' colClass='mx-auto' brCard='mb-3' tlCard='User Info'>
+					<ContainerFluidRow rowClass='justify-content-center'>
+						<Collapsible lgCol='5' mdCol='5' smCol='5' brCard='mb-3' tlCard='User Info'>
 							<UserInfo 
 								value={value}
 								stepAuth={this.stepAuth}
 								onChange={this.onChange}
 							/>
-						</ColCard>
-					</ContainerRow>
+						</Collapsible>
+					</ContainerFluidRow>
 				)
 			case 2:
 				return(
-					<ContainerRow>
-						<ColCard lgCol='5' mdCol='5' smCol='5' xsCol='5' colClass='mx-auto' brCard='mb-3' tlCard='User Contact'>
+					<ContainerFluidRow rowClass='justify-content-center'>
+						<Collapsible lgCol='5' mdCol='5' smCol='5' brCard='mb-3' tlCard='User Contact'>
 							<UserContact
 								value={value} 
 								stepAuth={this.stepAuth}
 								onChange={this.onChange}
 								onChangeOnContact={this.onChangeOnContact}
 							/>
-						</ColCard>
-					</ContainerRow>
+						</Collapsible>
+					</ContainerFluidRow>
 				)
 			case 3:
 				return(
-					<ContainerRow>
-						<ColCard lgCol='5' mdCol='5' smCol='5' xsCol='5' colClass='mx-auto' brCard='mb-3' tlCard='User Security'>
+					<ContainerFluidRow rowClass='justify-content-center'>
+						<Collapsible lgCol='5' mdCol='5' smCol='5' brCard='mb-3' tlCard='User Security'>
 							<UserPass 
 								value={value}
 								stepAuth={this.stepAuth}
 								onChange={this.onChange}
 							/>
-						</ColCard>
-					</ContainerRow>
+						</Collapsible>
+					</ContainerFluidRow>
 				)
 			case 4:
 				return(

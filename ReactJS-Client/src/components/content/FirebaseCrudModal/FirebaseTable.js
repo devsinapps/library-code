@@ -1,34 +1,72 @@
 import React from 'react'
-import { Table } from 'reactstrap'
-export const FirebaseTable = (props) => {
-	const { users } = props
+//mdbreact
+import { MDBDataTable } from 'mdbreact'
+export const FirebaseTable = ({dataRoutes, formAction}) => {
+	const users = dataRoutes.firestore.ordered.users
 	let no = 1
+	const data = {
+		columns: [
+			{
+		        label: 'No',
+		        field: 'no',
+		        sort: 'asc',
+		        width: 50
+	        },
+	        {
+		        label: 'First Name',
+		        field: 'firstName',
+		        sort: 'asc',
+		        width: 200
+	        },
+	        {
+		        label: 'Last Name',
+		        field: 'lastName',
+		        sort: 'asc',
+		        width: 100
+	        },
+	        {
+		        label: 'Age',
+		        field: 'age',
+		        sort: 'asc',
+		        width: 200
+	        },
+	        {
+		        label: 'Email',
+		        field: 'email',
+		        sort: 'asc',
+		        width: 200
+	        },
+	        {
+		        label: 'Adress',
+		        field: 'adress',
+		        sort: 'asc',
+		        width: 200
+	        }
+		],
+		rows: users && users.map((data)=>{
+			return(
+				{
+					clickEvent: ()=>formAction('GETDATA', data),
+					no: no++,
+					firstName: data.firstName,
+					lastName: data.lastName,
+					age: data.age,
+					email: data.email,
+					address: data.address,
+				}
+			)
+		})
+	}
 	return(
-		<Table hover bordered striped responsive size='sm'> 
-			<thead>
-				<tr>
-					<th> No </th>
-					<th> No </th>
-					<th> No </th>
-					<th> No </th>
-					<th> No </th>
-					<th> No </th>
-				</tr>
-			</thead>
-			<tbody>
-				{users && users.map((user)=>{
-					return(
-						<tr key={user.id} onClick={() => props.toggleTable(user)}>
-							<td> {no++} </td>
-							<td> {user.firstName} </td>
-							<td> {user.lastName} </td>
-							<td> {user.age} </td>
-							<td> {user.email} </td>
-							<td> {user.address} </td>
-						</tr>
-					)
-				})}
-			</tbody>
-		</Table>
+		<MDBDataTable
+			scrollY
+			scrollX
+			hover
+			bordered
+			striped
+			small
+			maxHeight='300px'
+			data={data}
+		/>
 	)
 }

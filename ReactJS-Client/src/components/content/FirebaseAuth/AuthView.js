@@ -3,25 +3,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 //Reactstrap
 import { Card, CardBody } from 'reactstrap'
-class AuthView extends React.Component{
-	render(){
-		const { profile } = this.props
-		return(
-			<Card>
-				<CardBody>
-					<ul>
-						<li> {profile.firstName + ' ' + profile.lastName} </li>
-					</ul>
-				</CardBody>
-			</Card>
-		)
-	}
+export const AuthView = ({profile}) => {
+	return(
+		<Card>
+			<CardBody>
+				<ul>
+					<li> {profile.firstName + ' ' + profile.lastName} </li>
+				</ul>
+			</CardBody>
+		</Card>
+	)
 }
-
-const mapStateToProps = (state) => {
-	return{
-		auth: state.firebase.auth
-	}
-}
-
-export default AuthView

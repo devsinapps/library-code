@@ -48,16 +48,10 @@ class SignIn extends React.Component{
 	}
 }
 
-const mapStateToProps = (state) => {
-	return{
-
-	}
-}
-
 const mapDispatchToProps = (dispatch) => {
 	return{
 		signIn: (credentials) => dispatch(signIn(credentials))
 	}
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(SignIn)
+export default connect(null,mapDispatchToProps)(SignIn)

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 //Tools
 import axios from 'axios'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Component
 import { DataTable } from './DataTable'
 import { DataForm } from './DataForm'
@@ -24,26 +24,26 @@ export class ArrObjCrud extends Component{
 		}))
 	}
 
-	getDataRow = (user) => {
-		this.setState({
-			userId: user.id,
-			name: user.name,
-			username: user.username,
-			email: user.email,
-			phone: user.phone,
-			website: user.website
-		})
-	}
-
 	onChange = (e) => {
 		this.setState({
 			[e.target.id]: e.target.value
 		})
 	}
 	
-	crudMode = (mode) => {
+	formAction = (mode, data) => {
 		const { users, userId, name, username, email, phone, website } = this.state
 		switch(mode){
+			case 'GETDATA':
+				this.setState({
+					userId: data.id,
+					name: data.name,
+					username: data.username,
+					email: data.email,
+					phone: data.phone,
+					website: data.website
+				})
+				break;
+
 			case 'SAVE':
 				const newData = {
 					id: new Date(),
@@ -139,25 +139,22 @@ export class ArrObjCrud extends Component{
 		const value = { name, username, email, phone, website }
 		return(
 			<div id='ArrObjCrud'>
-				<ContainerRow>
-					<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' brCard='mb-3' tlCard='Array Object Crud'>
+				<ContainerFluidRow>
+					<Collapsible lgCol='12' mdCol='12' smCol='12'  brCard='mb-3' tlCard='Array Object Crud'>
 						<DataTable 
 						users={users}
 						getDataRow={this.getDataRow}
+						formAction={this.formAction}
 						/>
-					</ColCard>
-					<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' brCard='mb-3' tlCard='Array Object Crud'>
+					</Collapsible>
+					<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='Array Object Crud'>
 						<DataForm 
 							value={value}
 							onChange={this.onChange}
-							resetForm={this.resetForm}
-							addData={this.addData}
-							updateData={this.updateData}
-							deleteData={this.deleteData}
-							crudMode={this.crudMode}
+							formAction={this.formAction}
 						/>
-					</ColCard>
-				</ContainerRow>
+					</Collapsible>
+				</ContainerFluidRow>
 			</div>
 		)
 	}

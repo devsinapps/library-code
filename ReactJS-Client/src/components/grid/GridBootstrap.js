@@ -1,64 +1,74 @@
 import React from 'react'
 
 import { Container, Row, Col, Card, CardHeader, CardBody } from 'reactstrap'
-export class ContainerRow extends React.Component{
+//mdbreact
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardHeader, MDBCardBody } from 'mdbreact'
+export class ContainerFluidRow extends React.Component{
 	render(){
-		const { children } = this.props
+		const { rowClass, children } = this.props
 		return(
-			<Container fluid>
-				<Row>
+			<MDBContainer>
+				<MDBRow className={rowClass}>
 					{children}
-				</Row>
-			</Container>
+				</MDBRow>
+			</MDBContainer>
 		)
 	}
 }
 
-export class ColCard extends React.Component{
+
+export class Collapsible extends React.Component{
 	state = {
-		isExpanded: false
+		isExpanded: false,
+		display: true
 	}
 
-	toggle = () => {
-		this.setState({
-			isExpanded: !this.state.isExpanded,
-			height: this.refs.inner.clientHeight
-		})
+	toggle = (mode) => {
+		switch(mode){
+			case 'minimize':
+				this.setState({
+					isExpanded: !this.state.isExpanded,
+					height: this.refs.inner.clientHeight
+				})
+				break;
+
+			case 'close':
+				this.setState({
+					display: false
+				})
+				break;
+
+			default:
+				return null
+		}
 	}
 	render(){
-		const { isExpanded, height } = this.state
-		const { lgCol, mdCol, smCol, xsCol, colClass, brCard, tlCard, children } = this.props
-		const currentHeight = height + 50;
-		const dropdownCard = isExpanded ?  0 : currentHeight;
-		const style = {
+		const { isExpanded, height, display } = this.state
+		const { lgCol, mdCol, smCol, brCard, tlCard, children } = this.props
+		const statement = {
+			click: children === undefined ? null : this.toggle,
 			styleCard: {
-				boxShadow: '0px 0px 1px 1px rgba(0,0,0,.2)'
-			},
-			styleHeader: {
-				backgroundImage: 'linear-gradient(to right, #f1f2f6, #fdfdfd)'
+				display: display ? 'block' : 'none'
 			},
 			styleBody: {
-				transition: 'all .3s',
 				overflow: 'hidden',
-				height: dropdownCard + 'px' 
-			},
-			styleOpacity: {
-				opacity: isExpanded ? '0' : '1',
-				transition: isExpanded ? 'all .3s' : 'all .3s'
+				transition: 'all .3s',
+				height: isExpanded ? '0' : height + 40,
+				padding: isExpanded ? '0' : '',
+				opacity: isExpanded ? '0' : '1'
 			}
 		}
-		const viewHeader = tlCard === '' ? null : <CardHeader style={style.styleHeader} onClick={this.toggle}> {tlCard} </CardHeader> ;
+		const config = {
+			viewHeader: tlCard === '' ? null : <MDBCardHeader onClick={()=>statement.click('minimize')}> {tlCard} </MDBCardHeader>,
+			viewBody: children === undefined ? null : <MDBCardBody style={statement.styleBody}> <div ref='inner'> {children} </div> </MDBCardBody>
+		}
 		return(
-			<Col lg={lgCol} md={mdCol} sm={smCol} xs={xsCol} className={colClass}>
-				<Card className={brCard}  style={style.styleCard}>
-					{viewHeader}
-					<CardBody style={style.styleBody}>
-						<div ref='inner' style={style.styleOpacity}>
-							{children}
-						</div>
-					</CardBody>
-				</Card>
-			</Col>
+			<MDBCol lg={lgCol} md={mdCol} sm={smCol} style={statement.styleCard}>
+				<MDBCard className={brCard}>
+					{config.viewHeader}
+					{config.viewBody}
+				</MDBCard>
+			</MDBCol>
 		)
 	}
 }

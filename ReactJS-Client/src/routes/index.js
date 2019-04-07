@@ -1,5 +1,8 @@
 import React from 'react'
 //Tools
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 //Layout
 import { TopNav } from './../components/layout/TopNav'
@@ -44,12 +47,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faAngleRight)
-
-export class Routes extends React.Component{
+class Routes extends React.Component{
 	passingFunction = () => {
 		alert('Props Function from routes')
 	}
 	render(){
+		const { dataRoutes } = this.props
 		const passingData = {
 			title: 'Props From Routes'
 		}
@@ -68,16 +71,16 @@ export class Routes extends React.Component{
 								<Route path='/arr_detail/:user_id' component={DataDetail} />
 
 							{/* Firebase */}
-							<Route path='/firebasecrud' component={FirebaseCrud} />
-							<Route path='/firebasecrudmodal' component={FirebaseCrudModal} />
-							<Route path='/firebasecruddetailpage' component={FirebaseCrudDetailPage} />
+							<Route path='/firebasecrud' render={(routeProps) => (<FirebaseCrud {...routeProps} dataRoutes={dataRoutes}/> )}/>
+							<Route path='/firebasecrudmodal' render={(routeProps) => (<FirebaseCrudModal {...routeProps} dataRoutes={dataRoutes}/> )}/>	
+							<Route path='/firebasecruddetailpage' render={(routeProps) => (<FirebaseCrudDetailPage {...routeProps} dataRoutes={dataRoutes}/> )}/>		
 								<Route path='/f_detail/:user_id' component={FirebaseDetail} />
 							<Route path='/firebaseauth' component={FirebaseAuth} />
 							<Route path='/firebaseauthmediasocial' component={FirebaseAuthMediaSocial} />
 
 							{/* PostgreSQL */}
-							<Route path='/postgrecrud' component={PostgreSQLCrud} />
-							<Route path='/postgrecrudmodal' component={PostgreSQLCrudModal} />
+							<Route path='/postgrecrud' render={(routeProps) => (<PostgreSQLCrud {...routeProps} dataRoutes={dataRoutes}/> )}/>
+							<Route path='/postgrecrudmodal' render={(routeProps) => (<PostgreSQLCrudModal {...routeProps} dataRoutes={dataRoutes}/> )}/>
 
 							{/* GraphQL */}
 							<Route path='/graphcrud' component={GraphQLCrud} />
@@ -99,3 +102,18 @@ export class Routes extends React.Component{
 		)
 	}
 }
+
+const mapStateToProps = (state) => {
+	return{
+		dataRoutes: state
+	}
+}
+
+export default compose(
+		connect(mapStateToProps),
+		firestoreConnect([
+			{
+				collection: 'users'
+			}
+		])
+	)(Routes)

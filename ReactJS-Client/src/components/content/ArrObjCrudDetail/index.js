@@ -1,6 +1,6 @@
 import React from 'react'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Component
 import { DataSummary } from './DataSummary'
 
@@ -21,16 +21,16 @@ export class ArrObjCrudDetail extends React.Component{
 		const { users } = this.state
 		return(
 			<div id='ArrObjCrudDetail'>
-				<ContainerRow>
-					<ColCard lgCol='6' mdCol='6' smCol='6' xsCol='6' colClass='mx-auto' brCard='mb-3' tlCard='Data Users'>
+				<ContainerFluidRow rowClass='justify-content-center'>
+					<Collapsible lgCol='6' mdCol='6' smCol='6' colClass='mx-auto' brCard='mb-3' tlCard='Data Users'>
 						{users && users.map((user)=>{
 							return(
 								<DataSummary key={user.id} user={user}/>
 								)
 							})
 						}
-					</ColCard>
-				</ContainerRow>
+					</Collapsible>
+				</ContainerFluidRow>
 			</div>
 		)
 	}

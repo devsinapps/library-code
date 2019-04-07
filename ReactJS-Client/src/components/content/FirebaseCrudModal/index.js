@@ -6,7 +6,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Reactstrap
 import { Button } from 'reactstrap'
 //Component
@@ -23,33 +23,27 @@ class FirebaseCrudModal extends React.Component{
 		address: ''
 	}
 
-	toggleModal = () => {
-		this.setState({
-			modal: !this.state.modal
-		})
-	}
-
-	toggleTable = (user) => {
-		this.setState({
-			modal: !this.state.modal,
-			userId: user.id,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			age: user.age,
-			email: user.email,
-			address: user.address
-		})
-	}
-
 	onChange = (e) => {
 		this.setState({
 			[e.target.id]: e.target.value
 		})
 	}
 
-	crudMode = (mode) => {
+	formAction = (mode, data) => {
 		const { modal, userId, firstName, lastName, age, email, address } = this.state
 		switch(mode){
+			case 'GETDATA':
+				this.setState({
+					modal: !this.state.modal,
+					userId: data.id,
+					firstName: data.firstName,
+					lastName: data.lastName,
+					age: data.age,
+					email: data.email,
+					address: data.address
+				})
+				break;
+
 			case 'SAVE':
 				const newData = {
 					firstName, 
@@ -75,7 +69,7 @@ class FirebaseCrudModal extends React.Component{
 				break;
 
 			case 'UPDATE':
-				const data = {
+				const dataUpdate = {
 					userId, 
 					firstName, 
 					lastName, 
@@ -85,7 +79,7 @@ class FirebaseCrudModal extends React.Component{
 				}
 				const checkUpd = window.confirm('Update?')
 				if(checkUpd === true){
-					this.props.updateData(data)
+					this.props.updateData(dataUpdate)
 					this.setState({
 						modal: !this.state.modal,
 						userId: '',
@@ -132,60 +126,57 @@ class FirebaseCrudModal extends React.Component{
 				})
 				break;
 
+			case 'OPEN':
+				this.setState({
+					modal: !this.state.modal,
+					userId: '',
+					firstName: '',
+					lastName: '',
+					age: '',
+					email: '',
+					address: ''
+				})
+				break;
+
 			default:
 				return null
 		}
 	}
 
 	render(){
+		const { dataRoutes } = this.props
 		const { modal } = this.state
-		const { users } = this.props
 		const { userId,firstName, lastName, age, email, address } = this.state
 		const value = { userId,firstName, lastName, age, email, address }
 		return(
 			<div id='FirebaseCrudModal'>
-				<ContainerRow>
-					<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' brCard='mb-3' tlCard='Table'>
+				<ContainerFluidRow>
+					<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='Table'>
 						<FirebaseTable 
-							users={users}
-							toggleTable={this.toggleTable}
+							dataRoutes={dataRoutes}
+							formAction={this.formAction}
 						/>
-						<Button onClick={this.toggleModal}> + </Button>
-					</ColCard>
+						<Button onClick={()=>this.formAction('OPEN', '')}> + </Button>
+					</Collapsible>
 					<FirebaseModal 
 						value={value}
 						modal={modal}
 						onChange={this.onChange}
-						resetForm={this.resetForm}
-						addData={this.addData}
-						updateData={this.updateData}
-						deleteData={this.deleteData}
-						crudMode={this.crudMode}
+						formAction={this.formAction}
 					/>
-				</ContainerRow>
+				</ContainerFluidRow>
 			</div>
 		)
-	}
-}
-
-
-const mapStateToProps = (state) => {
-	return{
-		users: state.firestore.ordered.users
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return{
 		addData: (newData) => dispatch(addData(newData)),
-		updateData: (data) => dispatch(updateData(data)),
+		updateData: (dataUpdate) => dispatch(updateData(dataUpdate)),
 		deleteData: (userId) => dispatch(deleteData(userId)),
 	}
 }
 
-export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	firestoreConnect([{
-		collection: 'users'
-	}])
-	)(FirebaseCrudModal)
+export default connect(null, mapDispatchToProps)(FirebaseCrudModal)
+	

@@ -1,9 +1,8 @@
 import React from 'react'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Reactstrap
 import { CardTitle, CardImg, CardText } from 'reactstrap'
-
 const API = "5c9aead891ab3c3bf462ec1e3d1a99ee"
 export class F2FDetail extends React.Component{
 	state = {
@@ -22,12 +21,12 @@ export class F2FDetail extends React.Component{
 	render(){
 		const { recipe } = this.state
 		return(
-			<ContainerRow>
-				<ColCard lgCol='12' mdCol='12' smCol='12' xsCol='12' brCard='mb-3' tlCard='Search Form'>
+			<ContainerFluidRow>
+				<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='Search Form'>
 					<CardTitle> {recipe.publisher} </CardTitle>
 					<CardText> {recipe.title} </CardText>
-				</ColCard>
-			</ContainerRow>
+				</Collapsible>
+			</ContainerFluidRow>
 		)
 	}
 }

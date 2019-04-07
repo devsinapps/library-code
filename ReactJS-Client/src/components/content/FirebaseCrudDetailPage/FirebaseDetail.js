@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 //Container
-import { ContainerRow, ColCard } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
 //Reactstrap
 import { CardTitle } from 'reactstrap'
 class FirebaseDetail extends React.Component{
@@ -14,16 +14,16 @@ class FirebaseDetail extends React.Component{
 		const { user } = this.props
 		if(user){
 			return(
-				<ContainerRow>
-					<ColCard lgCol='8' mdCol='8' smCol='8' xsCol='8' colClass='mx-auto' brCard='mb-3' tlCard='Detail'>
+				<ContainerFluidRow rowClass='justify-content-center'>
+					<Collapsible lgCol='8' mdCol='8' smCol='8' brCard='mb-3' tlCard='Detail'>
 						<CardTitle> {user.firstName + ' ' + user.lastName} </CardTitle>
 						<ul>
 							<li> {user.age} </li>
 							<li> {user.email} </li>
 							<li> {user.address} </li>
 						</ul>
-					</ColCard>
-				</ContainerRow>
+					</Collapsible>
+				</ContainerFluidRow>
 			)
 		}
 		else{
