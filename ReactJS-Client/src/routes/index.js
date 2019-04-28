@@ -36,6 +36,7 @@ import { FetchAPI_Food2Fork } from './../components/content/FetchAPI_Food2Fork_D
 
 //Mix
 import { FMAuth } from './../components/content/FormMultistep_Auth'
+import { FMAuth_1_1 } from './../components/content/FormMultistep_Auth_1.1'
 import { Multipage } from './../components/content/Multipage'
 import { PassingPropsFromRoutes } from './../components/content/PassingPropsFromRoutes'
 
@@ -92,6 +93,7 @@ class Routes extends React.Component{
 
 							{/* Mix */}
 							<Route path='/fmauth' component={FMAuth} />	
+							<Route path='/fmauth_1_1' component={FMAuth_1_1} />	
 							<Route path='/multipage' component={Multipage} />	
 							//Passing Props From routes to other component
 							<Route path='/passingprops' render={(routeProps) => (<PassingPropsFromRoutes {...routeProps} passingData={passingData} passingFunction={this.passingFunction}/> )}/>	

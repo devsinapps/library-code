@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 //Tools
 import axios from 'axios'
 //Container
-import { ContainerFluidRow, Collapsible } from './../../grid/GridBootstrap'
+import { ContainerFluidRow, Collapsible, Canvas } from './../../grid/GridBootstrap'
 //Component
 import { DataTable } from './DataTable'
 import { DataForm } from './DataForm'
@@ -138,24 +138,22 @@ export class ArrObjCrud extends Component{
 		const { name, username, email, phone, website } = this.state
 		const value = { name, username, email, phone, website }
 		return(
-			<div id='ArrObjCrud'>
-				<ContainerFluidRow>
-					<Collapsible lgCol='12' mdCol='12' smCol='12'  brCard='mb-3' tlCard='Array Object Crud'>
-						<DataTable 
+			<Canvas canvasClass='ArrObjCrud' rowClass='' lgCol='12' mdCol='12' smCol='12'  brCard='mb-3' tlCard='Array Object Crud'>
+				<div title='Table'>
+					<DataTable 
 						users={users}
 						getDataRow={this.getDataRow}
 						formAction={this.formAction}
-						/>
-					</Collapsible>
-					<Collapsible lgCol='12' mdCol='12' smCol='12' brCard='mb-3' tlCard='Array Object Crud'>
-						<DataForm 
-							value={value}
-							onChange={this.onChange}
-							formAction={this.formAction}
-						/>
-					</Collapsible>
-				</ContainerFluidRow>
-			</div>
+					/>
+				</div>
+				<div title='Form'>
+					<DataForm 
+						value={value}
+						onChange={this.onChange}
+						formAction={this.formAction}
+					/>
+				</div>
+			</Canvas>
 		)
 	}
 }
